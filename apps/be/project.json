@@ -7,7 +7,7 @@
             "executor": "@nrwl/workspace:run-commands",
             "options": {
                 "commands": [
-                    "nx deploy admin"
+                    "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps"
                 ]
             }
         },
@@ -31,7 +31,7 @@
             "executor": "@nrwl/workspace:run-commands",
             "options": {
                 "commands": [
-                    "docker-compose -f apps/be/docker-compose.yml restart hasura-backend-plus-local hasura-backend-plus-dev hasura-backend-plus"
+                    "docker-compose -f apps/be/docker-compose.yml restart hasura-backend-plus"
                 ]
             }
         },

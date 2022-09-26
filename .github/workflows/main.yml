@@ -1,0 +1,69 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'apps/fe/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Deploy
+        uses: hermanmitish/action-ssh@master
+        env:
+          DB_LOGIN: ${{ secrets.DB_LOGIN }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_SENDER: ${{ secrets.SMTP_SENDER }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+          VAPID_PRIVATE: ${{ secrets.VAPID_PRIVATE }}
+          VAPID_PUBLIC: ${{ secrets.VAPID_PUBLIC }}
+          AUTH_KEY: ${{ secrets.AUTH_KEY }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          CADDY_VOLUME: ${{ secrets.CADDY_VOLUME }}
+          CERT_PASS: ${{ secrets.CERT_PASS }}
+          COOKIE_SAME_SITE: ${{ secrets.COOKIE_SAME_SITE }}
+          COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+          COOKIE_SECURE: ${{ secrets.COOKIE_SECURE }}
+          HASURA_ENDPOINT: ${{ secrets.HASURA_ENDPOINT }}
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+          PG_VOLUME: ${{ secrets.PG_VOLUME }}
+          REDIRECT_URL_SUCCESS: ${{ secrets.REDIRECT_URL_SUCCESS }}
+        with:
+          hosts: ${{ secrets.HOST }}
+          privateKey: ${{ secrets.KEY }}
+          command: |
+            cd ~/matreg
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa
+            git fetch --all
+            git reset --hard origin/main
+            yarn
+            git diff --quiet main~1 main apps/be/Caddyfile
+            if [ $? -ne 0 ]; 
+            then 
+              echo "Updated Caddyfile"
+              yarn nx deploy-caddy be
+            fi
+            git diff --quiet main~1 main apps/be/storage-rules/*
+            if [ $? -ne 0 ]; 
+            then 
+              echo "Updated HBP"
+              yarn nx deploy-hbp be
+            fi
+            yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
+            yarn nx serve be

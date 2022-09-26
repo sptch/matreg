@@ -53,7 +53,7 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
-      HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "$JWT_SECRET"}'
+      # HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "$JWT_SECRET"}'
       HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: 'true'
 
   hasura-backend-plus:

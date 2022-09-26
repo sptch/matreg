@@ -14,25 +14,11 @@ gql.matreg.info:5432 {
   reverse_proxy * postgres:5432
 }
 
-api.matreg.info {
+auth.matreg.info {
   @not_jwk {
     not path /auth/jwks
   }
-  reverse_proxy @not_jwk hasura-backend-plus:4000
-}
-
-api-dev.matreg.info {
-  @not_jwk {
-    not path /auth/jwks
-  }
-  reverse_proxy @not_jwk hasura-backend-plus-dev:4000
-}
-
-api-local.matreg.info {
-  @not_jwk {
-    not path /auth/jwks
-  }
-  reverse_proxy @not_jwk hasura-backend-plus-local:4000
+  reverse_proxy @not_jwk hasura-auth:4000
 }
 
 gql.matreg.info {

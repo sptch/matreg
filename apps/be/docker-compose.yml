@@ -91,7 +91,7 @@ services:
       # AUTH_SMTP_USER: ''
       # AUTH_SMTP_PORT: ''
       # AUTH_SMTP_SECURE: 'false'
-      # AUTH_SMTP_SENDER: 'We.City Platform <info@matreg.info>'
+      # AUTH_SMTP_SENDER: 'Matreg Platform <info@matreg.info>'
       AUTH_ACCESS_CONTROL_ALLOWED_REDIRECT_URLS: 'https://matreg.info,https://matreg.info/success,https://matreg.info/failure,https://dev.matreg.info,https://dev.matreg.info/success,https://dev.matreg.info/failure,http://localhost:3000,http://localhost:3000/success,http://localhost:3000/failure'
       AUTH_PASSWORD_MIN_LENGTH: 6
       AUTH_USER_DEFAULT_ALLOWED_ROLES: user,me

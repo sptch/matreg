@@ -43,7 +43,7 @@ services:
     - "8080"
     depends_on:
       - postgres
-      - hasura-backend-plus
+      - hasura-auth
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "host=postgres dbname=matreg port=5432 user=${DB_LOGIN} password=${DB_PASSWORD}"

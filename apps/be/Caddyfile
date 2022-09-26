@@ -43,7 +43,4 @@ hasura-aws.matreg.info {
   reverse_proxy * hasura:8080
 }
 
-// tiles.matreg.info {
-//   reverse_proxy * martin:3000
-// }
 

@@ -1,4 +1,5 @@
-x-logs-defaults: &logs_defaults
+x-logs-defaults:
+  &logs_defaults
   logging:
     options:
       max-size: "12m"
@@ -24,7 +25,7 @@ services:
 
   postgres:
     <<: *logs_defaults
-    image: "postgis/postgis:13-3.0-alpine" 
+    image: "postgis/postgis:13-3.0-alpine"
     restart: always
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
@@ -40,7 +41,7 @@ services:
     <<: *logs_defaults
     image: hasura/graphql-engine:v2.13.0-beta.1.cli-migrations-v3.ubuntu
     ports:
-    - "8080"
+      - "8080"
     depends_on:
       - postgres
     restart: always
@@ -55,6 +56,8 @@ services:
       HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: 'true'
       HASURA_GRAPHQL_DEFAULT_NAMING_CONVENTION: 'graphql-default'
       HASURA_GRAPHQL_EXPERIMENTAL_FEATURES: 'naming_convention'
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /matreg/migrations
+      HASURA_GRAPHQL_METADATA_DIR: /matreg/metadata
 
   hasura-auth:
     <<: *logs_defaults
@@ -98,7 +101,7 @@ services:
       AUTH_USER_ALLOWED_ROLES: user,me
       AUTH_ACCESS_CONTROL_ALLOWED_EMAIL_DOMAINS: matreg.info,dev.matreg.info,localhost:3000
       # AUTH_DISABLE_NEW_USERS: 'true'
-      
+
     ports:
       - '4000'
     volumes:

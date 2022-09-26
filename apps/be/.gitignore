@@ -1,0 +1,15 @@
+/*
+
+!/.github/
+!/dev
+!/.gitignore
+!/README.md
+!/docker-compose.yml
+!/storage-rules
+!/custom
+!/migration
+!project.json 
+!/mail-templates
+!/storage-rules
+!/postgres
+!Caddyfile

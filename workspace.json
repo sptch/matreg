@@ -4,6 +4,7 @@
   "projects": {
     "common": "libs/common",
     "ui": "libs/ui",
-    "fe": "apps/fe"
+    "fe": "apps/fe",
+    "be": "apps/be"
   }
 }

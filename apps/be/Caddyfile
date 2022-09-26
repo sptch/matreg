@@ -1,0 +1,49 @@
+
+
+{
+    auto_https disable_redirects
+}
+
+(cors) {
+	@origin header Origin {args.0}
+	header @origin Access-Control-Allow-Origin "{args.0}"
+	header @origin Access-Control-Request-Method GET
+}
+
+gql.matreg.info:5432 {
+  reverse_proxy * postgres:5432
+}
+
+api.matreg.info {
+  @not_jwk {
+    not path /auth/jwks
+  }
+  reverse_proxy @not_jwk hasura-backend-plus:4000
+}
+
+api-dev.matreg.info {
+  @not_jwk {
+    not path /auth/jwks
+  }
+  reverse_proxy @not_jwk hasura-backend-plus-dev:4000
+}
+
+api-local.matreg.info {
+  @not_jwk {
+    not path /auth/jwks
+  }
+  reverse_proxy @not_jwk hasura-backend-plus-local:4000
+}
+
+gql.matreg.info {
+  reverse_proxy * hasura:8080
+}
+
+hasura-aws.matreg.info {
+  reverse_proxy * hasura:8080
+}
+
+// tiles.matreg.info {
+//   reverse_proxy * martin:3000
+// }
+

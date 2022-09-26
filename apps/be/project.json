@@ -1,0 +1,71 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/be/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "nx deploy admin"
+                ]
+            }
+        },
+        "serve": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps"
+                ]
+            }
+        },
+        "deploy-caddy": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.yml restart caddy"
+                ]
+            }
+        },
+        "deploy-hbp": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.yml restart hasura-backend-plus-local hasura-backend-plus-dev hasura-backend-plus"
+                ]
+            }
+        },
+        "deploy-postgres": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.yml restart postgres"
+                ]
+            }
+        },
+        "unmount": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.yml down"
+                ]
+            }
+        },
+        "start": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.mac.yml up -d --always-recreate-deps"
+                ]
+            }
+        },
+        "stop": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "commands": [
+                    "docker-compose -f apps/be/docker-compose.mac.yml down"
+                ]
+            }
+        }
+    },
+    "tags": []

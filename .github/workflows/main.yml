@@ -53,17 +53,17 @@ jobs:
             git fetch --all
             git reset --hard origin/main
             yarn
-            git diff --quiet main~1 main apps/be/Caddyfile
-            if [ $? -ne 0 ]; 
-            then 
-              echo "Updated Caddyfile"
-              yarn nx deploy-caddy be
-            fi
-            git diff --quiet main~1 main apps/be/storage-rules/*
-            if [ $? -ne 0 ]; 
-            then 
-              echo "Updated HBP"
-              yarn nx deploy-hbp be
-            fi
-            yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
-            yarn nx serve be
+            # git diff --quiet main~1 main apps/be/Caddyfile
+            # if [ $? -ne 0 ]; 
+            # then 
+            #   echo "Updated Caddyfile"
+            #   yarn nx deploy-caddy be
+            # fi
+            # git diff --quiet main~1 main apps/be/storage-rules/*
+            # if [ $? -ne 0 ]; 
+            # then 
+            #   echo "Updated HBP"
+            #   yarn nx deploy-hbp be
+            # fi
+            # yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
+            # yarn nx serve be

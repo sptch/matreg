@@ -1,5 +1,4 @@
-x-logs-defaults:
-  &logs_defaults
+x-logs-defaults: &logs_defaults
   logging:
     options:
       max-size: "12m"
@@ -25,7 +24,7 @@ services:
 
   postgres:
     <<: *logs_defaults
-    image: "postgis/postgis:13-3.0-alpine"
+    image: "postgis/postgis:13-3.0-alpine" 
     restart: always
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
@@ -35,13 +34,13 @@ services:
       - '5432:5432'
     volumes:
       - ${PG_VOLUME:-pg_data}:/var/lib/postgresql/data
-      - ./postgres:/scripts
+      - ./postgres/up.sql:/docker-entrypoint-initdb.d/up.sql
 
   hasura:
     <<: *logs_defaults
-    image: hasura/graphql-engine:latest
+    image: hasura/graphql-engine:v2.13.0-beta.1.cli-migrations-v3.ubuntu
     ports:
-      - "8080"
+    - "8080"
     depends_on:
       - postgres
       - hasura-backend-plus
@@ -53,74 +52,81 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
-      # HASURA_GRAPHQL_JWT_SECRET: '{"type": "RS256", "key": "$JWT_SECRET"}'
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "HS256", "key": "$JWT_SECRET", "issuer":"hasura-auth"}'
       HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS: 'true'
+      HASURA_GRAPHQL_DEFAULT_NAMING_CONVENTION: 'graphql-default'
+      HASURA_GRAPHQL_EXPERIMENTAL_FEATURES: 'naming_convention'
 
-  hasura-backend-plus:
+  hasura-auth:
     <<: *logs_defaults
-    image: nhost/hasura-backend-plus:2.7.1
+    image: nhost/hasura-auth:0.13.0
+    restart: always
+    depends_on:
+      - postgres
+      - hasura
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${DB_LOGIN}:${DB_PASSWORD}@postgres:5432/matreg
+      HASURA_GRAPHQL_GRAPHQL_URL: http://hasura:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
+      HASURA_GRAPHQL_JWT_SECRET: '{"type": "HS256", "key": "$JWT_SECRET", "issuer":"hasura-auth"}'
+      AUTH_HOST: 0.0.0.0
+      AUTH_PORT: 4000
+      AUTH_EMAIL_PASSWORDLESS_ENABLED: 'true'
+      AUTH_JWT_CUSTOM_CLAIMS: display_name,avatar_url
+      AUTH_PASSWORD_HIBP_ENABLED: 'false'
+      AUTH_SERVER_URL: https://api.matreg.info
+      # AUTH_PROVIDER_GOOGLE_ENABLED: 'true'
+      # AUTH_PROVIDER_GOOGLE_CLIENT_ID: ''
+      # AUTH_PROVIDER_GOOGLE_CLIENT_SECRET: '${GOOGLE_CLIENT_SECRET}'
+      # AUTH_PROVIDER_APPLE_ENABLED: 'true'
+      # AUTH_PROVIDER_APPLE_CLIENT_ID: '${APPLE_CLIENT_ID}'
+      # AUTH_PROVIDER_APPLE_TEAM_ID: '${APPLE_TEAM_ID}'
+      # AUTH_PROVIDER_APPLE_KEY_ID: '${APPLE_KEY_ID}'
+      # AUTH_PROVIDER_APPLE_PRIVATE_KEY: '${APPLE_PRIVATE_KEY}'
+      # AUTH_PROVIDER_FACEBOOK_ENABLED: ''
+      # AUTH_PROVIDER_FACEBOOK_CLIENT_ID: ''
+      # AUTH_PROVIDER_FACEBOOK_CLIENT_SECRET: ''
+      # AUTH_EMAIL_SIGNIN_EMAIL_VERIFIED_REQUIRED: ''
+      # AUTH_SMTP_HOST: ''
+      # AUTH_SMTP_PASS: '${SMTP_PASS}'
+      # AUTH_SMTP_USER: ''
+      # AUTH_SMTP_PORT: ''
+      # AUTH_SMTP_SECURE: 'false'
+      # AUTH_SMTP_SENDER: 'We.City Platform <info@matreg.info>'
+      AUTH_ACCESS_CONTROL_ALLOWED_REDIRECT_URLS: 'https://matreg.info,https://matreg.info/success,https://matreg.info/failure,https://dev.matreg.info,https://dev.matreg.info/success,https://dev.matreg.info/failure,http://localhost:3000,http://localhost:3000/success,http://localhost:3000/failure'
+      AUTH_PASSWORD_MIN_LENGTH: 6
+      AUTH_USER_DEFAULT_ALLOWED_ROLES: user,me
+      AUTH_USER_ALLOWED_ROLES: user,me
+      AUTH_ACCESS_CONTROL_ALLOWED_EMAIL_DOMAINS: matreg.info,dev.matreg.info,localhost:3000
+      # AUTH_DISABLE_NEW_USERS: 'true'
+      
     ports:
       - '4000'
-    restart: always
     volumes:
-      - ./mail-templates:/app/custom/emails
-      - ./storage-rules:/app/custom/storage-rules
-    environment:
-      HOST: 0.0.0.0
-      PORT: 4000
-      MAGIC_LINK_ENABLED: "true"
-      DATABASE_URL: >-
-        postgres://${DB_LOGIN}:${DB_PASSWORD}@postgres:5432/matreg
-      REGISTRATION_CUSTOM_FIELDS: "display_name"
-      JWT_CUSTOM_FIELDS: display_name,avatar_url
-      HIBP_ENABLED: "false"
-      SERVER_URL: https://api.matreg.info
-      JWT_KEY: '$JWT_PRIVATE_KEY'
-      JWT_ALGORITHM: RS256
-      HASURA_ENDPOINT: http://hasura:8080/v1/graphql
-      HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
+      - ./mail-templates:/app/email-templates
 
-      # TODO SETUP S3
-      # S3_ENDPOINT: https://s3.eu-north-1.amazonaws.com
-      # S3_BUCKET: s3.matreg.info
-      # S3_ACCESS_KEY_ID: AKIA2IYHTX7JSN5BFAEC
-      # S3_SECRET_ACCESS_KEY: '${S3_SECRET_ACCESS_KEY}'
-
-      # TODO SETUP AUTH
-
-      # GOOGLE_ENABLED: 'true'
-      # GOOGLE_CLIENT_ID: ''
-      # GOOGLE_CLIENT_SECRET: '${GOOGLE_CLIENT_SECRET}'
-      # APPLE_ENABLED: 'true'
-      # APPLE_CLIENT_ID: '${APPLE_CLIENT_ID}'
-      # APPLE_TEAM_ID: '${APPLE_TEAM_ID}'
-      # APPLE_KEY_ID: '${APPLE_KEY_ID}'
-      # APPLE_PRIVATE_KEY: '${APPLE_PRIVATE_KEY}'
-      # FACEBOOK_ENABLED: 'true'
-      # FACEBOOK_CLIENT_ID: '1075569679634321'
-      # FACEBOOK_CLIENT_SECRET: '${FACEBOOK_CLIENT_SECRET}'
-      # AUTO_MIGRATE: 'true'
-      # COOKIE_SAME_SITE: 'none'
-      # COOKIE_SECURE: 'true'
-      # COOKIE_SECRET: '${COOKIE_SECRET}'
-      # VERIFY_EMAILS: 'true'
-      # EMAILS_ENABLED: 'true'
-      # SMTP_HOST: 'email-smtp.eu-west-1.amazonaws.com'
-      # SMTP_PASS: '${SMTP_PASS}'
-      # SMTP_USER: 'AKIA2IYHTX7JSRJLISNC'
-      # SMTP_PORT: '587'
-      # SMTP_SECURE: 'false'
-      # SMTP_SENDER: 'matreg Platform <hi@matreg.info>'
-
-      NOTIFY_EMAIL_CHANGE: 'true'
-      AUTO_ACTIVATE_NEW_USERS: 'false'
-      REDIRECT_URL_SUCCESS: 'https://matreg.info/success'
-      REDIRECT_URL_ERROR: 'https://matreg.info/failure'
-      MIN_PASSWORD_LENGTH: 6
-      DEFAULT_ALLOWED_USER_ROLES: user,me
-      ALLOWED_USER_ROLES: user,me
-
-  # TODO Backend plus dev & local
+  # hasura-storage:
+  #   <<: *logs_defaults
+  #   image: nhost/hasura-storage:0.2.3
+  #   restart: always
+  #   command: serve
+  #   depends_on:
+  #     - postgres
+  #     - hasura
+  #     - minio
+  #   environment:
+  #     PORT: 8000
+  #     HASURA_METADATA: 1
+  #     HASURA_ENDPOINT: http://hasura:8080/v1
+  #     HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
+  #     S3_ACCESS_KEY: AKIA2IYHTX7JSN5BFAEC
+  #     S3_SECRET_KEY: '${S3_SECRET_ACCESS_KEY}'
+  #     S3_ENDPOINT: https://s3.eu-north-1.amazonaws.com
+  #     S3_BUCKET: s3.matreg.info
+  #     POSTGRES_MIGRATIONS: 1
+  #     POSTGRES_MIGRATIONS_SOURCE: postgres://${DB_LOGIN}:${DB_PASSWORD}@postgres:5432/matreg?sslmode=disable
+  #   ports:
+  #     - '8000'
 
   martin:
     <<: *logs_defaults

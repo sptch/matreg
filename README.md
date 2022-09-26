@@ -1,2 +1,3 @@
-# matreg
-Material Register
+# Matreg
+
+Material Registry prototype

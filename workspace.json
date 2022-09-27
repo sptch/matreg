@@ -2,9 +2,10 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "be": "apps/be",
     "common": "libs/common",
-    "ui": "libs/ui",
+    "eco-api": "apps/eco-api",
     "fe": "apps/fe",
-    "be": "apps/be"
+    "ui": "libs/ui"
   }
 }

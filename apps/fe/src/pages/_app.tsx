@@ -1,3 +1,4 @@
+import ViewerComponent from 'components/Viewer';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider, DefaultTheme } from 'styled-components';
@@ -28,6 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <Component {...pageProps} />
+          <ViewerComponent />
         </ThemeProvider>
       </>
     </>

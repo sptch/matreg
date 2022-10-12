@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@matreg/common": ["libs/common/src/index.ts"],
-      "@matreg/components": ["libs/components/src/index.ts"]
+      "@matreg/components": ["libs/components/src/index.ts"],
+      "@matreg/speckle": ["libs/speckle/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

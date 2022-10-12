@@ -14,6 +14,8 @@
     "@nestjs/graphql": "^10.1.2",
     "@nestjs/platform-express": "^9.0.0",
     "@nrwl/next": "14.7.5",
+    "@speckle/objectloader": "^2.9.0",
+    "@speckle/viewer": "^2.9.0",
     "apollo-server-express": "^3.10.2",
     "core-js": "^3.6.5",
     "graphql": "^16.6.0",
@@ -26,6 +28,7 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
     "styled-components": "5.3.5",
+    "styled-system": "^5.1.5",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

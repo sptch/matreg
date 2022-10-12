@@ -6,6 +6,7 @@
     "common": "libs/common",
     "eco-api": "apps/eco-api",
     "fe": "apps/fe",
+
     "ui": "libs/ui"
   }
 }

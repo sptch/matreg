@@ -19,7 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "paths": {
-      "@speckle": ["../../libs/speckle/src/index.ts"],
+      "@speckle-viewer": ["../../../libs/speckle-viewer/src/index.ts"],
       "@common": ["../../libs/common/src/index.ts"],
       "@ui": ["../../libs/components/src/index.ts"]
     }

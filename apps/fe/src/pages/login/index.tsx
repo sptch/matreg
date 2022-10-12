@@ -41,7 +41,7 @@ const GreySpan = styled.span`
   font-family: 'IBM Plex Sans', sans-serif;
 `;
 
-export default function Index() {
+export default function LoginPage() {
   return (
     <Wrapper>
       <Title>

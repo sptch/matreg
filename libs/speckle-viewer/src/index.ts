@@ -1,1 +1,1 @@
-export * from './lib/speckle-viewer';
+export * from './components/SpeckleViewer';

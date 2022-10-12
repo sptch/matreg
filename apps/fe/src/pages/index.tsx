@@ -5,6 +5,7 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 import { theme } from '../pages/_app';
 import { Title } from 'components/sharedstyles';
+import { SpeckleViewer } from '@speckle-viewer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +17,8 @@ const Wrapper = styled.div`
 export default function Index() {
   return (
     <Wrapper>
-      <Title>Material Registry</Title>
+      {/* <Title>Material Registry</Title> */}
+      <SpeckleViewer />
     </Wrapper>
   );
 }

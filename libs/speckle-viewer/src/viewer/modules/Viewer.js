@@ -109,6 +109,9 @@ export default class Viewer extends EventEmitter {
         // const ambientLight = new THREE.AmbientLight(0xffffff)
         // this.scene.add(ambientLight)
 
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1)
+        this.scene.add(ambientLight)
+
         const lights = []
         lights[0] = new THREE.PointLight(0xffffff, 0.11, 0)
         lights[1] = new THREE.PointLight(0xffffff, 0.11, 0)

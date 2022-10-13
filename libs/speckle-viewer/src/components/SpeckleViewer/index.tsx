@@ -8,10 +8,14 @@ const SpeckleViewerContainer = styled.div`
   overflow: hidden;
 `;
 
-export function SpeckleViewer() {
+type ViewerProps = {
+  objectUrl: string;
+};
+
+export function SpeckleViewer(props: ViewerProps) {
   return (
     <SpeckleViewerContainer>
-      <ViewerControl />
+      <ViewerControl objectUrl={props.objectUrl} />
     </SpeckleViewerContainer>
   );
 }

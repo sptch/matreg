@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { Viewer } from '../../viewer';
 
-const loadEntities = async (viewer: Viewer) => {
-  await viewer.loadObject(
-    'https://speckle.xyz/streams/da9e320dad/objects/31d10c0cea569a1e26809658ed27e281'
-  );
+const loadEntities = async (viewer: Viewer, objectUrl: string) => {
+  await viewer.loadObject(objectUrl);
   for (const o of viewer.allObjects) {
-    // console.log(o);
+    console.log(o);
   }
   let selfInflicted = false;
   let dontReact = false;
@@ -20,14 +18,18 @@ const loadEntities = async (viewer: Viewer) => {
   });
 };
 
-export function ViewerControl() {
+type ViewerControlProps = {
+  objectUrl: string;
+};
+
+export function ViewerControl(props: ViewerControlProps) {
   const viewer = useRef<Viewer | null>(null);
   let divRef: HTMLDivElement | null;
   console.log('ViewerControl render');
   useEffect(() => {
     if (divRef) {
       viewer.current = new Viewer({ container: divRef, showStats: false });
-      loadEntities(viewer.current);
+      loadEntities(viewer.current, props.objectUrl);
     }
   }, []);
 

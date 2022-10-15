@@ -9,9 +9,9 @@ const loadEntities = async (viewer: Viewer, objectUrl: string) => {
   let selfInflicted = false;
   let dontReact = false;
 
-  console.log(viewer.interactions.selectObjects((v) => v.userData.id));
+  console.log(viewer.interactions.selectObjects((v:any) => v.userData.id));
 
-  viewer.on('objectSelected', (obj) => {
+  viewer.on('objectSelected', (obj:any) => {
     if (dontReact) return;
     selfInflicted = true;
     console.log('selected', obj);

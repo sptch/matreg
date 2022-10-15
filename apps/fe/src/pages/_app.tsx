@@ -1,6 +1,6 @@
-import ViewerComponent from 'components/Viewer';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { RecoilRoot } from 'recoil';
 import { ThemeProvider, DefaultTheme } from 'styled-components';
 import Inter from '../../../../libs/common/src/fonts/Inter';
 import GlobalStyle from '../components/globalstyles';
@@ -26,11 +26,12 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <>
         <Inter />
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Component {...pageProps} />
-          <ViewerComponent />
-        </ThemeProvider>
+        <RecoilRoot>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </RecoilRoot>
       </>
     </>
   );

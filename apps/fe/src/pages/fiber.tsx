@@ -1,11 +1,11 @@
 // index page
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
-import { theme } from '../pages/_app';
-import { Title } from 'components/sharedstyles';
-import { SpeckleViewer } from '@speckle-viewer';
+
+import Viewer from 'containers/Viewer';
+import ViewerPreview from 'containers/ViewerPreview';
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,11 +32,10 @@ const Panel = styled.div`
 export default function Index() {
   return (
     <Wrapper>
-      {/* <Title>Material Registry</Title> */}
       <Panel>
-        <SpeckleViewer objectUrl="https://speckle.xyz/streams/da9e320dad/objects/2e77c0d8abe9109e539699a5d085c8fd" />
+        <ViewerPreview />
       </Panel>
-      <SpeckleViewer objectUrl="https://speckle.xyz/streams/da9e320dad/objects/31d10c0cea569a1e26809658ed27e281" />
+      <Viewer />
     </Wrapper>
   );
 }

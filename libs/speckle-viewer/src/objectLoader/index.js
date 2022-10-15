@@ -270,12 +270,8 @@ export default class ObjectLoader {
   }
 
   async *getRawObjectIterator() {
-    if (
-      this.options.enableCaching &&
-      window.indexedDB &&
-      this.cacheDB === null
-    ) {
-      await safariFix();
+    if (this.options.enableCaching && this.cacheDB === null) {
+      // await safariFix();
       const idbOpenRequest = indexedDB.open('speckle-object-cache', 1);
       idbOpenRequest.onupgradeneeded = () =>
         idbOpenRequest.result.createObjectStore('objects');
@@ -527,20 +523,20 @@ export default class ObjectLoader {
 }
 
 // Credits and more info: https://github.com/jakearchibald/safari-14-idb-fix
-function safariFix() {
-  const isSafari =
-    !navigator.userAgentData &&
-    /Safari\//.test(navigator.userAgent) &&
-    !/Chrom(e|ium)\//.test(navigator.userAgent);
+// function safariFix() {
+//   const isSafari =
+//     !navigator.userAgentData &&
+//     /Safari\//.test(navigator.userAgent) &&
+//     !/Chrom(e|ium)\//.test(navigator.userAgent);
 
-  // No point putting other browsers or older versions of Safari through this mess.
-  if (!isSafari || !indexedDB.databases) return Promise.resolve();
+//   // No point putting other browsers or older versions of Safari through this mess.
+//   if (!isSafari || !indexedDB.databases) return Promise.resolve();
 
-  let intervalId;
+//   let intervalId;
 
-  return new Promise((resolve) => {
-    const tryIdb = () => indexedDB.databases().finally(resolve);
-    intervalId = setInterval(tryIdb, 100);
-    tryIdb();
-  }).finally(() => clearInterval(intervalId));
-}
+//   return new Promise((resolve) => {
+//     const tryIdb = () => indexedDB.databases().finally(resolve);
+//     intervalId = setInterval(tryIdb, 100);
+//     tryIdb();
+//   }).finally(() => clearInterval(intervalId));
+// }

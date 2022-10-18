@@ -1,7 +1,7 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { Objects } from 'components/Objects';
+import { Bounds, OrbitControls, useBounds } from '@react-three/drei';
+import { SpeckleObjects } from 'components/canvas/SpeckleObjects';
 import {
   useRecoilBridgeAcrossReactRoots_UNSTABLE,
   useRecoilState,
@@ -11,6 +11,7 @@ import { atoms } from 'common/recoli';
 export default function ViewerPreview() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
   const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
+
   return (
     <Canvas camera={{ position: [0, -10, 80], fov: 50 }} dpr={[1, 2]}>
       <RecoilBridge>
@@ -32,11 +33,13 @@ export default function ViewerPreview() {
         <directionalLight position={[-10, -10, 2]} intensity={3} />
         {/* Ground */}
         <Suspense fallback={null}>
-          <Objects
-            objectUrl={`https://speckle.xyz/streams/da9e320dad/objects/${selected}`}
-          />
+          <Bounds clip observe margin={2}>
+            <SpeckleObjects
+              objectUrl={`https://speckle.xyz/streams/da9e320dad/objects/${selected}`}
+            />
+          </Bounds>
         </Suspense>
-        <OrbitControls />
+        <OrbitControls makeDefault />
       </RecoilBridge>
     </Canvas>
   );

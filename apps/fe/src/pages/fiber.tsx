@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import Viewer from 'containers/Viewer';
 import ViewerPreview from 'containers/ViewerPreview';
+import { useRecoilState } from 'recoil';
+import { atoms } from 'common/recoli';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,11 +32,14 @@ const Panel = styled.div`
 `;
 
 export default function Index() {
+  const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
   return (
     <Wrapper>
-      <Panel>
-        <ViewerPreview />
-      </Panel>
+      {selected && (
+        <Panel>
+          <ViewerPreview />
+        </Panel>
+      )}
       <Viewer />
     </Wrapper>
   );

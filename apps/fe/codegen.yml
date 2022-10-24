@@ -1,0 +1,27 @@
+overwrite: true
+schema:
+  - 'https://speckle.xyz/graphql':
+
+documents:
+  - 'src/**/*.graphql'
+  - 'src/**/**/*.graphql'
+  - 'src/**/**/**/*.graphql'
+  - 'src/**/**/**/**/*.graphql'
+  - 'src/**/**/**/**/**/*.graphql'
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+      - 'typescript-apollo-client-helpers'
+      - 'fragment-matcher'
+    config:
+      withHooks: true
+      withMutationFn: true
+      reactApolloVersion: 3
+      skipTypeNameForRoot: true
+      skipTypename: true
+  src/generated/graphql.schema.json:
+    plugins:
+      - 'introspection'

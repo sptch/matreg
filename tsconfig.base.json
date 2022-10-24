@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@matreg/assets": ["libs/assets/src/index.ts"],
       "@matreg/common": ["libs/common/src/index.ts"],
       "@matreg/components": ["libs/components/src/index.ts"],
       "@matreg/speckle": ["libs/speckle/src/index.ts"],

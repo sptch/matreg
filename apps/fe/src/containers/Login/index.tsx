@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Block, Button, FormControl, Header, SLink, Text, TextField } from './styles';
+import {
+  Block,
+  Button,
+  FormControl,
+  Header,
+  SLink,
+  Text,
+  TextField,
+} from './styles';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -10,7 +18,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     const res = await fetch('/api/login', {

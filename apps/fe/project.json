@@ -40,6 +40,20 @@
         }
       }
     },
+    "gql": {
+      "executor": "@dnrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/fe",
+        "command": "dotenv -- graphql-codegen --config codegen.yml"
+      }
+    },
+    "gql-watch": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/fe",
+        "command": "dotenv -- graphql-codegen --config codegen.yml --watch --silent"
+      }
+    },
     "export": {
       "executor": "@nrwl/next:export",
       "options": {

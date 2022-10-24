@@ -4,6 +4,8 @@ import { RecoilRoot } from 'recoil';
 import { ThemeProvider, DefaultTheme } from 'styled-components';
 import Inter from '../../../../libs/common/src/fonts/Inter';
 import GlobalStyle from '../components/globalstyles';
+import { ApolloProvider, InMemoryCache } from '@apollo/client';
+import { client } from 'common';
 
 export const theme: DefaultTheme = {
   colors: {
@@ -27,10 +29,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <>
         <Inter />
         <RecoilRoot>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <Component {...pageProps} />
-          </ThemeProvider>
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </ApolloProvider>
         </RecoilRoot>
       </>
     </>

@@ -12,11 +12,21 @@ import {
 import { SpeckleObjects } from 'components/canvas/SpeckleObjects';
 import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from 'recoil';
 
-export default function Viewer() {
+type ViewerProps = {
+  speckleObjects?: SpeckleObject[];
+};
+
+export type SpeckleObject = {
+  server: string;
+  streamId: string;
+  objectId: string;
+};
+
+export default function Viewer({ speckleObjects }: ViewerProps) {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
   return (
     <Suspense fallback={<span>loading...</span>}>
-      <Canvas dpr={[1, 2]}>
+      <Canvas dpr={[1, 2]} camera={{ position: [-40, 20, 40], fov: 50 }}>
         <RecoilBridge>
           {/* Fill */}
           <ambientLight intensity={0.1} />
@@ -37,7 +47,12 @@ export default function Viewer() {
           {/* Ground */}
           <Suspense fallback={null}>
             <Bounds observe margin={2}>
-              <SpeckleObjects objectUrl="https://speckle.xyz/streams/da9e320dad/objects/31d10c0cea569a1e26809658ed27e281" />
+              {speckleObjects?.map((object) => (
+                <SpeckleObjects
+                  key={object.objectId}
+                  objectUrl={`${object.server}/streams/${object.streamId}/objects/${object.objectId}`}
+                />
+              ))}
             </Bounds>
           </Suspense>
           <OrbitControls makeDefault />

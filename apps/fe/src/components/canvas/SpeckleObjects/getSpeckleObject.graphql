@@ -1,0 +1,20 @@
+query GetSpeckleObjects {
+  speckle {
+    stream(id: "da9e320dad") {
+      object(id: "31d10c0cea569a1e26809658ed27e281") {
+        id
+        totalChildrenCount
+        children(depth: 2, select: ["id", "type", "level.name"]) {
+          objects {
+            id
+            data
+            totalChildrenCount
+            speckleType
+          }
+        }
+        data
+      }
+      updatedAt
+    }
+  }
+}

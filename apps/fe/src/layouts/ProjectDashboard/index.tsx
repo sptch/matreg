@@ -1,5 +1,3 @@
-// index page
-
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
@@ -17,16 +15,17 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow-y: hidden;
 `;
 
 // viewer vindow top right corner panel
 const Panel = styled.div`
-    position: flex;
+    position: relative;
+    display: flex;
     width: 480px;
     // margin for last child div
-
+    flex-direction: column;
     border: 3px solid #ffffff;
-
     border-radius: 20px;
     background-color: white;
     z-index: 100;
@@ -36,6 +35,7 @@ const Panel = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
+
     top: 16px;
     right: 16px;
     gap: 16px;
@@ -57,7 +57,7 @@ const Panel = styled.div`
   PanelContent = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 0 10px;
   `,
   CloseButton = styled.button`
     all: unset;
@@ -68,7 +68,7 @@ const Panel = styled.div`
   `,
   SearchBar = styled.input`
     all: unset;
-    padding: 0 20px;
+    width: 100%;
     border-radius: 20px;
     height: 40px;
     width: 100%;
@@ -79,7 +79,21 @@ const Panel = styled.div`
     }
   `;
 
-export default function Index() {
+export type ProjectProps = {
+  name: string;
+  description: string;
+  id: string;
+  buildings: Building[];
+};
+
+export type Building = {
+  name: string;
+  description: string;
+  id: string;
+  speckleObjects: SpeckleObject[];
+};
+
+export default function ProjectDashboard(props: ProjectProps) {
   const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
   const [selectedObject, setSelectedObject] = useRecoilState(
     atoms.selectedObject
@@ -90,22 +104,16 @@ export default function Index() {
     atoms.preSelectedObjects
   );
 
-  const speckleObjects: SpeckleObject[] = [
-    {
-      server: 'https://speckle.xyz',
-      streamId: '92681d64c6',
-      objectId: 'fc24d43a58e94d6251416877435d3a67',
-    },
-  ];
-
   return (
     <Wrapper>
       <SidePanel>
         <Panel>
-          <SearchBar
-            placeholder="Search by Component Name or Unique ID"
-            onChange={(e) => (setSearch(e.target.value), setSelected(null))}
-          />
+          <PanelContent>
+            <SearchBar
+              placeholder="Search by Component Name or Unique ID"
+              onChange={(e) => (setSearch(e.target.value), setSelected(null))}
+            />
+          </PanelContent>
         </Panel>
         {preSelectedObjects &&
           !selected &&
@@ -138,7 +146,9 @@ export default function Index() {
           </>
         )}
       </SidePanel>
-      <Viewer speckleObjects={speckleObjects} />
+      <Viewer
+        speckleObjects={props.buildings.flatMap((b) => b.speckleObjects)}
+      />
     </Wrapper>
   );
 }

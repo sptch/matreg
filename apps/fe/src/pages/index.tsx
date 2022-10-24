@@ -34,9 +34,9 @@ export default function Index() {
     <Wrapper>
       {/* <Title>Material Registry</Title> */}
       <Panel>
-        <SpeckleViewer objectUrl="https://speckle.xyz/streams/da9e320dad/objects/2e77c0d8abe9109e539699a5d085c8fd" />
+        <SpeckleViewer objectUrl="https://speckle.xyz/streams/92681d64c6/objects/9b5144415c4033c3e7930ceb64421057" />
       </Panel>
-      <SpeckleViewer objectUrl="https://speckle.xyz/streams/da9e320dad/objects/31d10c0cea569a1e26809658ed27e281" />
+      <SpeckleViewer objectUrl="https://speckle.xyz/streams/6c18eaf66a/objects/6460234e18f90d28d3f05056991bbeb6" />
     </Wrapper>
   );
 }

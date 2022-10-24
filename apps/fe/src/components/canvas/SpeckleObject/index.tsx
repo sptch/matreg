@@ -1,8 +1,8 @@
 import { useBounds, useCursor } from '@react-three/drei';
-import { atoms } from 'common/recoli';
+import { atoms } from 'common/recoil';
 import { SpeckleGeometry } from 'components/canvas/SpeckleGeometry';
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import THREE from 'three';
 
 type ObjectProps = {
@@ -12,27 +12,71 @@ type ObjectProps = {
 };
 
 export function SpeckleObject({ object, loader }: ObjectProps) {
-  const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
+  const [selectedId, setSelectedId] = useRecoilState(atoms.selectedObjectId);
+  const [hoveredId, setHoveredId] = useRecoilState(atoms.hoveredObjectId);
+  const preSelectedObjects = useRecoilValue(atoms.preSelectedObjects);
+  const [preselected, setPreselected] = useState(false);
+
+  useEffect(() => {
+    if (preSelectedObjects) {
+      setPreselected(preSelectedObjects.some((obj) => obj?.id === object.id));
+    } else setPreselected(false);
+  }, [preSelectedObjects]);
+
   const [hovered, setHovered] = useState(false);
-  const isActive = selected === object?.id;
+  // const [active, setActive] = useState(false);
+  // useEffect(() => {
+  //   if (hoveredId) {
+  //     const hovered = hoveredId === object?.id;
+  //     setHovered(hovered);
+  //   } else setHovered(false);
+  // }, [hoveredId]);
+
+  const active = selectedId === object?.id;
+
+  // useEffect(() => {
+  //   if (selectedId) {
+  //     const active = selectedId === object?.id;
+  //     setActive(active);
+  //   } else setActive(false);
+  // }, [selectedId]);
+
   useCursor(hovered);
   const api = useBounds();
 
   return (
     <group
       key={object?.id}
-      onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
+      onPointerOver={(e) =>
+        (preselected || !preSelectedObjects) &&
+        (e.stopPropagation(), setHovered(true))
+      }
       onPointerOut={(e) => setHovered(false)}
-      onClick={(e) => (e.stopPropagation(), setSelected(object?.id))}
-      onDoubleClick={(e) => (
-        e.stopPropagation(), e.delta <= 2 && api.refresh(e.object).fit()
-      )}
+      onDoubleClick={(e) =>
+        (preselected || !preSelectedObjects) &&
+        (e.stopPropagation(),
+        e.delta <= 2 && api.refresh(e.object).fit(),
+        setSelectedId(object?.id))
+      }
+      onClick={(e) =>
+        (preselected || !preSelectedObjects) &&
+        (e.stopPropagation(),
+        setSelectedId(object?.id),
+        selectedId == object?.id && setSelectedId(null))
+      }
     >
       {object?.displayObjects &&
         object?.displayObjects.map((displayObjects: any) => (
           <SpeckleGeometry
-            key={displayObjects.id}
-            isActive={isActive}
+            key={displayObjects?.id}
+            active={active}
+            transparent={
+              (!preSelectedObjects || !preselected) && preSelectedObjects
+                ? true
+                : false
+            }
+            // hovered={hovered}
+            preselected={preselected}
             object={displayObjects}
             loader={loader}
           />

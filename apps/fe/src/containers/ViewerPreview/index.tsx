@@ -6,7 +6,7 @@ import {
   useRecoilBridgeAcrossReactRoots_UNSTABLE,
   useRecoilState,
 } from 'recoil';
-import { atoms } from 'common/recoli';
+import { atoms } from 'common/recoil';
 
 export default function ViewerPreview() {
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
@@ -34,9 +34,9 @@ export default function ViewerPreview() {
         {/* Ground */}
         <Suspense fallback={null}>
           <Bounds clip observe margin={2}>
-            <SpeckleObjects
+            {/* <SpeckleObjects
               objectUrl={`https://speckle.xyz/streams/da9e320dad/objects/${selected}`}
-            />
+            /> */}
           </Bounds>
         </Suspense>
         <OrbitControls makeDefault />

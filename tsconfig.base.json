@@ -19,7 +19,8 @@
       "@matreg/common": ["libs/common/src/index.ts"],
       "@matreg/components": ["libs/components/src/index.ts"],
       "@matreg/speckle": ["libs/speckle/src/index.ts"],
-      "@matreg/speckle-viewer": ["libs/speckle-viewer/src/index.ts"]
+      "@matreg/speckle-viewer": ["libs/speckle-viewer/src/index.ts"],
+      "@matreg/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

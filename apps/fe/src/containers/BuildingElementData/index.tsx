@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { concatAST } from 'graphql';
 import { ReactComponent as Edit } from '@assets/icons/pencil.svg';
 import { EditButton } from 'components/EditButton';
+import { PrimaryButton } from '@matreg/ui';
 
 const StyledTabs = styled(TabsPrimitive.Root)`
     display: flex;
@@ -318,6 +319,7 @@ export function BuildingElementData() {
   return (
     <Box>
       <H1>Building element data</H1>
+      <PrimaryButton> Edit </PrimaryButton>
       <Tabs defaultValue="overview">
         <TabList>
           {buildingElementData.propertiesGroups.map((group) => (

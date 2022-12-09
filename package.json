@@ -29,7 +29,6 @@
     "core-js": "^3.6.5",
     "dotenv": "^16.0.3",
     "dotenv-cli": "^6.0.0",
-    "express": "^4.17.1",
     "graphql": "^16.6.0",
     "graphql-tools": "^8.3.6",
     "next": "^12.3",

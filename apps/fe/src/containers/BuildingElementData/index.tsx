@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { concatAST } from 'graphql';
 import { ReactComponent as Edit } from '@assets/icons/pencil.svg';
 import { EditButton } from 'components/EditButton';
-import { PrimaryButton } from '@matreg/ui';
+import { PrimaryButton } from '@ui';
 
 const StyledTabs = styled(TabsPrimitive.Root)`
     display: flex;

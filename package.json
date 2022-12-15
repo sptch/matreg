@@ -9,6 +9,8 @@
   },
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.6",
+    "@heroicons/react": "^2.0.13",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.1.2",

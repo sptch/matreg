@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
 
@@ -9,7 +9,7 @@ import { atoms } from 'common/recoil';
 import { BuildingElementData, H1 } from 'containers/BuildingElementData';
 import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
 import { SpeckleObject } from 'containers/Viewer';
-import { InfoCard, PrimaryButton, Card } from '@ui';
+import { PrimaryButton, Card } from '@ui';
 import {
   ClockIcon,
   BuildingOfficeIcon,
@@ -17,6 +17,8 @@ import {
   Square3Stack3DIcon,
 } from '@heroicons/react/24/outline';
 import 'tailwindcss/tailwind.css';
+
+import { RadioGroup } from '@headlessui/react';
 
 const Wrapper = styled.div`
   display: flex;
@@ -105,37 +107,43 @@ const stats = [
   {
     name: 'Embodied carbon',
     stat: '71,897',
-    bgColor: 'bg-ocean-blue',
+    unit: 'kgCO2e',
+    bgColor: 'bg-cyan-700',
     textColor: 'text-seaweed-green',
   },
   {
     name: 'Material mass',
-    stat: '58.16%',
-    bgColor: 'bg-ocean-green',
+    stat: '58.16',
+    unit: '%',
+    bgColor: 'bg-teal-700',
     textColor: 'text-seaweed-green',
   },
   {
     name: 'Build cost',
-    stat: '24.57%',
-    bgColor: 'bg-tangerine-yellow',
+    stat: '24.57',
+    unit: '%',
+    bgColor: 'bg-orange-300',
     textColor: 'text-seaweed-green',
   },
   {
     name: 'Energy use intensity',
-    stat: '24.57%',
-    bgColor: 'bg-salmon',
+    stat: '24.57',
+    unit: '%',
+    bgColor: 'bg-red-200',
     textColor: 'text-seaweed-green',
   },
   {
     name: 'Other',
-    stat: '24.57%',
-    bgColor: 'bg-silver',
+    stat: '24.57',
+    unit: '%',
+    bgColor: 'bg-gray-300',
     textColor: 'text-seaweed-green',
   },
   {
     name: 'Other',
-    stat: '24.57%',
-    bgColor: 'bg-silver',
+    stat: '24.57',
+    unit: '%',
+    bgColor: 'bg-gray-300',
     textColor: 'text-seaweed-green',
   },
 ];
@@ -150,9 +158,9 @@ const phaseSteps = [
 ];
 
 const tabs = [
-  { name: 'Overview', href: '#', current: true },
-  { name: 'Impact', href: '#', current: false },
-  { name: 'Performance', href: '#', current: false },
+  { name: 'Overview', href: '#' },
+  { name: 'Impact', href: '#' },
+  { name: 'Performance', href: '#' },
 ];
 
 const stats2 = [
@@ -176,6 +184,9 @@ export default function ProjectDashboard(props: ProjectProps) {
   const [preSelectedObjects, setPreSelectedObjects] = useRecoilState(
     atoms.preSelectedObjects
   );
+
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
 
   return (
     <Wrapper>
@@ -216,55 +227,45 @@ export default function ProjectDashboard(props: ProjectProps) {
                 <BuildingElementData />
                 <PrimaryButton />
                 <Card />
-                <div className="border-b border-gray-200 bg-gray-300 rounded-2xl">
+                <div className="border-b border-gray-200 bg-gray-700 rounded-2xl rounded-b-3xl">
                   <div className="sm:px-6 py-5 -ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-                    <h3 className="px-3 py-3 text-lg font-medium leading-6 text-gray-900">
+                    <h3 className="px-3 py-3 text-lg font-medium leading-6 text-white">
                       Building A
                     </h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                    <p className="mt-1 max-w-2xl text-sm text-white">
                       Details about the building
                     </p>
                   </div>
-                  <div>
-                    <div className="sm:hidden">
-                      <label htmlFor="tabs" className="sr-only">
-                        Select a tab
-                      </label>
-                      {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-                      <select
-                        id="tabs"
-                        name="tabs"
-                        className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                        defaultValue={tabs.find((tab) => tab.current).name}
-                      >
-                        {tabs.map((tab) => (
-                          <option key={tab.name}>{tab.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="hidden sm:block">
-                      <nav
-                        className="flex space-x-4 bg-gray-400 rounded-full"
-                        aria-label="Tabs"
-                      >
-                        {tabs.map((tab) => (
-                          <a
-                            key={tab.name}
-                            href={tab.href}
-                            className={classNames(
-                              tab.current
-                                ? 'bg-gray-200 text-gray-800'
-                                : 'text-gray-200 hover:text-gray-800',
-                              ' px-3 py-2 font-medium text-sm rounded-full'
-                            )}
-                            aria-current={tab.current ? 'page' : undefined}
-                          >
+                  <RadioGroup
+                    value={selectedTab}
+                    onChange={setSelectedTab}
+                    className="mt-2"
+                  >
+                    <RadioGroup.Label className="sr-only"></RadioGroup.Label>
+                    <div className="grid grid-cols-4 gap-3 bg-gray-400 rounded-full">
+                      {tabs.map((tab) => (
+                        <RadioGroup.Option
+                          key={tab.name}
+                          value={tab}
+                          className={({ active, checked }) =>
+                            classNames(
+                              active
+                                ? 'ring-2 ring-offset-1 ring-blue-900'
+                                : '',
+                              checked
+                                ? 'bg-blue-900 border-transparent text-white hover:bg-blue-700'
+                                : 'bg-gray-400 border-gray-400 text-gray-900 hover:bg-gray-50',
+                              'space-x-4 bg-gray-400 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
+                            )
+                          }
+                        >
+                          <RadioGroup.Label as="span">
                             {tab.name}
-                          </a>
-                        ))}
-                      </nav>
+                          </RadioGroup.Label>
+                        </RadioGroup.Option>
+                      ))}
                     </div>
-                  </div>
+                  </RadioGroup>
                 </div>
 
                 <div className="overflow-hidden bg-white sm:rounded-lg">
@@ -441,22 +442,42 @@ export default function ProjectDashboard(props: ProjectProps) {
                           'overflow-hidden rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
                         )}
                       >
-                        <dt
-                          className={classNames(
-                            item.bgColor,
-                            'truncate text-sm font-medium'
-                          )}
-                        >
+                        <dt className="truncate text-sm font-medium text-white">
                           {item.name}
                         </dt>
-                        <dd
-                          className={classNames(
-                            item.textColor,
-                            'mt-1 text-xl font-semibold tracking-tight'
-                          )}
-                        >
+                        <dd className="mt-1 text-xl font-semibold tracking-tight">
                           {item.stat}
                         </dd>
+                        <dt className="truncate text-xs font-light text-white">
+                          {item.unit}
+                        </dt>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">
+                    Materials
+                  </h3>
+                  <dl className="overflow-x-auto whitespace-nowrap mt-5 grid grid-rows-1 grid-flow-col  gap-3 ">
+                    {stats.map((item) => (
+                      <div
+                        key={item.name}
+                        className={classNames(
+                          item.bgColor,
+                          'w-30 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
+                        )}
+                      >
+                        <dt className="truncate text-sm font-medium text-white">
+                          {item.name}
+                        </dt>
+                        <dd className="mt-1 text-xl font-semibold tracking-tight">
+                          {item.stat}
+                        </dd>
+                        <dt className="truncate text-xs font-light text-white">
+                          {item.unit}
+                        </dt>
                       </div>
                     ))}
                   </dl>

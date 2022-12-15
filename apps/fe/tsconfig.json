@@ -21,7 +21,7 @@
     "paths": {
       "@speckle-viewer": ["../../../libs/speckle-viewer/src/index.ts"],
       "@common": ["../../../libs/common/src/index.ts"],
-      "@ui": ["../../../libs/components/src/index.ts"],
+      "@ui": ["../../../libs/ui/src/index.ts"],
       "@ui/*": ["../../../libs/ui/src/*"],
       "@assets/*": ["../../../libs/assets/*"]
     }

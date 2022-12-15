@@ -158,9 +158,9 @@ const phaseSteps = [
 ];
 
 const tabs = [
-  { name: 'Overview', href: '#' },
-  { name: 'Impact', href: '#' },
-  { name: 'Performance', href: '#' },
+  { name: 'Overview', href: '#', id: 1 },
+  { name: 'Impact', href: '#', id: 2 },
+  { name: 'Performance', href: '#', id: 3 },
 ];
 
 const stats2 = [
@@ -186,7 +186,6 @@ export default function ProjectDashboard(props: ProjectProps) {
   );
 
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
-
 
   return (
     <Wrapper>
@@ -254,7 +253,7 @@ export default function ProjectDashboard(props: ProjectProps) {
                                 : '',
                               checked
                                 ? 'bg-blue-900 border-transparent text-white hover:bg-blue-700'
-                                : 'bg-gray-400 border-gray-400 text-gray-900 hover:bg-gray-50',
+                                : 'bg-gray-400 border-gray-400 text-gray-900 hover:bg-gray-300',
                               'space-x-4 bg-gray-400 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
                             )
                           }
@@ -268,220 +267,223 @@ export default function ProjectDashboard(props: ProjectProps) {
                   </RadioGroup>
                 </div>
 
-                <div className="overflow-hidden bg-white sm:rounded-lg">
-                  <div className="px-2 py-3 sm:px-6">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      General
-                    </h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                      subtext
-                    </p>
-                  </div>
-                  <div>
-                    <dl className="px-2 pb-3">
-                      <div className=" py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Address
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                          Building A Singleton Park, Sketty, Swansea SA2 8PP
-                        </dd>
+                {selectedTab.id === 1 && (
+                  <>
+                    <div className="overflow-hidden bg-white sm:rounded-lg">
+                      <div className="px-2 py-3 sm:px-6">
+                        <h3 className="text-lg font-medium leading-6 text-gray-900">
+                          General
+                        </h3>
+                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                          subtext
+                        </p>
                       </div>
-                      <div className="bg-white py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-sm font-medium text-gray-500">
-                          Project
-                        </dt>
-                        <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                          Swansea X
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
-                </div>
-
-                <div>
-                  <dl className="mt-5 grid grid-rows-1 grid-flow-col gap-2">
-                    {stats2.map((item) => (
-                      <div
-                        key={item.id}
-                        className="relative overflow-hidden rounded-lg bg-gray-50 px-1 pt-1 pb-1 shadow sm:px-1 sm:pt-1"
-                      >
-                        <dt>
-                          <div className="top-0 rounded-md p-2">
-                            <item.icon
-                              className="h-6 w-6 text-black"
-                              aria-hidden="true"
-                            />
+                      <div>
+                        <dl className="px-2 pb-3">
+                          <div className=" py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-500">
+                              Address
+                            </dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                              Building A Singleton Park, Sketty, Swansea SA2 8PP
+                            </dd>
                           </div>
-                          <p className="mt-1 ml-1 truncate text-sm font-medium text-gray-500">
-                            {item.name}
-                          </p>
-                        </dt>
-                        <dd className="ml-1 flex items-baseline pb-2">
-                          <p className="text-sm font-semibold text-gray-900">
-                            {item.stat}
-                          </p>
-                        </dd>
+                          <div className="bg-white py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-500">
+                              Project
+                            </dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                              Swansea X
+                            </dd>
+                          </div>
+                        </dl>
                       </div>
-                    ))}
-                  </dl>
-                </div>
+                    </div>
+                    <div>
+                      <dl className="mt-5 grid grid-rows-1 grid-flow-col gap-2">
+                        {stats2.map((item) => (
+                          <div
+                            key={item.id}
+                            className="relative overflow-hidden rounded-lg bg-gray-50 px-1 pt-1 pb-1 shadow sm:px-1 sm:pt-1"
+                          >
+                            <dt>
+                              <div className="top-0 rounded-md p-2">
+                                <item.icon
+                                  className="h-6 w-6 text-black"
+                                  aria-hidden="true"
+                                />
+                              </div>
+                              <p className="mt-1 ml-1 truncate text-sm font-medium text-gray-500">
+                                {item.name}
+                              </p>
+                            </dt>
+                            <dd className="ml-1 flex items-baseline pb-2">
+                              <p className="text-sm font-semibold text-gray-900">
+                                {item.stat}
+                              </p>
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                    <div className="p-1 py-3">
+                      <h3 className="text-lg font-medium leading-6 text-gray-900">
+                        Phase
+                      </h3>
+                      <nav aria-label="Progress">
+                        <ol
+                          role="list"
+                          className="flex items-center bg-gray-100 p-5 rounded-lg"
+                        >
+                          {phaseSteps.map((step, stepIdx) => (
+                            <li
+                              key={step.name}
+                              className={classNames(
+                                stepIdx !== step.length - 1 ? 'pr-8' : '',
+                                'relative'
+                              )}
+                            >
+                              {step.status === 'complete' ? (
+                                <>
+                                  <div
+                                    className="absolute inset-0 flex items-center"
+                                    aria-hidden="true"
+                                  >
+                                    <div className="h-4 mt-9 w-full bg-gray-600 rounded-l-lg" />
+                                  </div>
+                                  <div className="top-0 mb-3">
+                                    <step.icon
+                                      className="h-6 w-6 text-black"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                  <a
+                                    href="#"
+                                    className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 hover:bg-indigo-900"
+                                  >
+                                    <span className="mt-12 text-sm">
+                                      {step.name}
+                                    </span>
+                                  </a>
+                                </>
+                              ) : step.status === 'current' ? (
+                                <>
+                                  <div
+                                    className="absolute inset-0 flex items-center"
+                                    aria-hidden="true"
+                                  >
+                                    <div className="h-4 mt-9 w-full bg-gray-200" />
+                                  </div>
+                                  <div className="top-0 mb-3">
+                                    <step.icon
+                                      className="h-6 w-6 text-black"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                  <a
+                                    href="#"
+                                    className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-600 bg-white"
+                                    aria-current="step"
+                                  >
+                                    <span
+                                      className="h-2.5 w-2.5 rounded-full bg-gray-600"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="mt-12 text-sm">
+                                      {step.name}
+                                    </span>
+                                  </a>
+                                </>
+                              ) : (
+                                <>
+                                  <div
+                                    className="absolute inset-0 flex items-center"
+                                    aria-hidden="true"
+                                  >
+                                    <div className="h-4 mt-9 w-full bg-gray-200" />
+                                  </div>
+                                  <div className="top-0 mb-3">
+                                    <step.icon
+                                      className="h-6 w-6 text-black"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                  <a
+                                    href="#"
+                                    className="group relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white hover:border-gray-400"
+                                  >
+                                    <span
+                                      className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="mt-12 text-sm">
+                                      {step.name}
+                                    </span>
+                                  </a>
+                                </>
+                              )}
+                            </li>
+                          ))}
+                        </ol>
+                      </nav>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium leading-6 text-gray-900">
+                        Materials
+                      </h3>
+                      <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        {stats.map((item) => (
+                          <div
+                            key={item.name}
+                            className={classNames(
+                              item.bgColor,
+                              'overflow-hidden rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
+                            )}
+                          >
+                            <dt className="truncate text-sm font-medium text-white">
+                              {item.name}
+                            </dt>
+                            <dd className="mt-1 text-xl font-semibold tracking-tight">
+                              {item.stat}
+                            </dd>
+                            <dt className="truncate text-xs font-light text-white">
+                              {item.unit}
+                            </dt>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  </>
+                )}
 
-                <div className="p-1 py-3">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Phase
-                  </h3>
-                  <nav aria-label="Progress">
-                    <ol
-                      role="list"
-                      className="flex items-center bg-gray-100 p-5 rounded-lg"
-                    >
-                      {phaseSteps.map((step, stepIdx) => (
-                        <li
-                          key={step.name}
+                {selectedTab.id === 2 && (
+                  <div>
+                    <h3 className="text-lg font-medium leading-6 text-gray-900">
+                      Materials
+                    </h3>
+                    <dl className="overflow-x-auto whitespace-nowrap mt-5 grid grid-rows-1 grid-flow-col  gap-3 ">
+                      {stats.map((item) => (
+                        <div
+                          key={item.name}
                           className={classNames(
-                            stepIdx !== step.length - 1 ? 'pr-8' : '',
-                            'relative'
+                            item.bgColor,
+                            'w-30 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
                           )}
                         >
-                          {step.status === 'complete' ? (
-                            <>
-                              <div
-                                className="absolute inset-0 flex items-center"
-                                aria-hidden="true"
-                              >
-                                <div className="h-4 mt-9 w-full bg-gray-600 rounded-l-lg" />
-                              </div>
-                              <div className="top-0 mb-3">
-                                <step.icon
-                                  className="h-6 w-6 text-black"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                              <a
-                                href="#"
-                                className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 hover:bg-indigo-900"
-                              >
-                                <span className="mt-12 text-sm">
-                                  {step.name}
-                                </span>
-                              </a>
-                            </>
-                          ) : step.status === 'current' ? (
-                            <>
-                              <div
-                                className="absolute inset-0 flex items-center"
-                                aria-hidden="true"
-                              >
-                                <div className="h-4 mt-9 w-full bg-gray-200" />
-                              </div>
-                              <div className="top-0 mb-3">
-                                <step.icon
-                                  className="h-6 w-6 text-black"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                              <a
-                                href="#"
-                                className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-600 bg-white"
-                                aria-current="step"
-                              >
-                                <span
-                                  className="h-2.5 w-2.5 rounded-full bg-gray-600"
-                                  aria-hidden="true"
-                                />
-                                <span className="mt-12 text-sm">
-                                  {step.name}
-                                </span>
-                              </a>
-                            </>
-                          ) : (
-                            <>
-                              <div
-                                className="absolute inset-0 flex items-center"
-                                aria-hidden="true"
-                              >
-                                <div className="h-4 mt-9 w-full bg-gray-200" />
-                              </div>
-                              <div className="top-0 mb-3">
-                                <step.icon
-                                  className="h-6 w-6 text-black"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                              <a
-                                href="#"
-                                className="group relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white hover:border-gray-400"
-                              >
-                                <span
-                                  className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"
-                                  aria-hidden="true"
-                                />
-                                <span className="mt-12 text-sm">
-                                  {step.name}
-                                </span>
-                              </a>
-                            </>
-                          )}
-                        </li>
+                          <dt className="truncate text-sm font-medium text-white">
+                            {item.name}
+                          </dt>
+                          <dd className="mt-1 text-xl font-semibold tracking-tight">
+                            {item.stat}
+                          </dd>
+                          <dt className="truncate text-xs font-light text-white">
+                            {item.unit}
+                          </dt>
+                        </div>
                       ))}
-                    </ol>
-                  </nav>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Materials
-                  </h3>
-                  <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    {stats.map((item) => (
-                      <div
-                        key={item.name}
-                        className={classNames(
-                          item.bgColor,
-                          'overflow-hidden rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
-                        )}
-                      >
-                        <dt className="truncate text-sm font-medium text-white">
-                          {item.name}
-                        </dt>
-                        <dd className="mt-1 text-xl font-semibold tracking-tight">
-                          {item.stat}
-                        </dd>
-                        <dt className="truncate text-xs font-light text-white">
-                          {item.unit}
-                        </dt>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Materials
-                  </h3>
-                  <dl className="overflow-x-auto whitespace-nowrap mt-5 grid grid-rows-1 grid-flow-col  gap-3 ">
-                    {stats.map((item) => (
-                      <div
-                        key={item.name}
-                        className={classNames(
-                          item.bgColor,
-                          'w-30 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
-                        )}
-                      >
-                        <dt className="truncate text-sm font-medium text-white">
-                          {item.name}
-                        </dt>
-                        <dd className="mt-1 text-xl font-semibold tracking-tight">
-                          {item.stat}
-                        </dd>
-                        <dt className="truncate text-xs font-light text-white">
-                          {item.unit}
-                        </dt>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
+                    </dl>
+                  </div>
+                )}
               </PanelContent>
             </Panel>
           </>

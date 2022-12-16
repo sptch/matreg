@@ -3,8 +3,10 @@ import * as React from 'react';
 import {
   ClockIcon,
   BuildingOfficeIcon,
-  Bars4Icon,
-  Square3Stack3DIcon,
+  MapIcon,
+  ComputerDesktopIcon,
+  CubeIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 
 type Phase = {
@@ -16,11 +18,11 @@ type Phase = {
 
 const phaseSteps: Phase[] = [
   { name: 'Concept', status: 'complete', id: 1, icon: ClockIcon },
-  { name: 'Planning', status: 'complete', id: 2, icon: Square3Stack3DIcon },
-  { name: 'Design', status: 'current', id: 3, icon: Bars4Icon },
-  { name: 'Construction', status: 'upcoming', id: 4, icon: Square3Stack3DIcon },
+  { name: 'Planning', status: 'complete', id: 2, icon: MapIcon },
+  { name: 'Design', status: 'current', id: 3, icon: ComputerDesktopIcon },
+  { name: 'Construction', status: 'upcoming', id: 4, icon: CubeIcon },
   { name: 'Use', status: 'upcoming', id: 5, icon: BuildingOfficeIcon },
-  { name: 'EoL', status: 'upcoming', id: 6, icon: Square3Stack3DIcon },
+  { name: 'EoL', status: 'upcoming', id: 6, icon: ArrowPathIcon },
 ];
 
 export interface PhaseDisplayerProps {

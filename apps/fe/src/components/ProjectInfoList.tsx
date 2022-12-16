@@ -17,7 +17,6 @@ export interface ProjectInfoListProps {
 }
 
 export function ProjectInfoList(props: ProjectInfoListProps) {
-  const { data } = props;
   const projectInfo = defaultProjectInfo;
 
   return (

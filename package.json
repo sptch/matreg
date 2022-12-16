@@ -24,6 +24,7 @@
     "@speckle/objectloader": "^2.9.0",
     "@speckle/viewer": "^2.9.0",
     "@svgr/webpack": "^6.5.0",
+    "@tanstack/react-table": "^8.7.3",
     "@types/styled-system": "^5.1.15",
     "apollo": "^2.34.0",
     "apollo-server-express": "^3.10.2",

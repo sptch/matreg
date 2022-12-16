@@ -20,6 +20,8 @@ import 'tailwindcss/tailwind.css';
 
 import { RadioGroup } from '@headlessui/react';
 
+import Table from 'components/Table';
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -252,9 +254,9 @@ export default function ProjectDashboard(props: ProjectProps) {
                                 ? 'ring-2 ring-offset-1 ring-gray-900'
                                 : '',
                               checked
-                                ? 'bg-gray-400 border-transparent text-white hover:bg-gray-200'
+                                ? 'bg-gray-400 border-transparent text-white hover:bg-gray-300'
                                 : 'bg-gray-500 border-gray-500 text-gray-900 hover:bg-gray-300',
-                              'space-x-4 bg-gray-400 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
+                              'space-x-4 bg-gray-500 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
                             )
                           }
                         >
@@ -482,6 +484,12 @@ export default function ProjectDashboard(props: ProjectProps) {
                         </div>
                       ))}
                     </dl>
+                  </div>
+                )}
+
+                {selectedTab.id === 3 && (
+                  <div>
+                    <Table />
                   </div>
                 )}
               </PanelContent>

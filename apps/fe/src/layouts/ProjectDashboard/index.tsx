@@ -21,6 +21,10 @@ import 'tailwindcss/tailwind.css';
 import { RadioGroup } from '@headlessui/react';
 
 import Table from 'components/Table';
+import {
+  BuildingMetrics,
+  RadioBuildingMetrics,
+} from 'components/MaterialsCards';
 
 const Wrapper = styled.div`
   display: flex;
@@ -105,51 +109,6 @@ export type Building = {
   speckleObjects: SpeckleObject[];
 };
 
-const stats = [
-  {
-    name: 'Embodied carbon',
-    stat: '71,897',
-    unit: 'kgCO2e',
-    bgColor: 'bg-cyan-700',
-    textColor: 'text-seaweed-green',
-  },
-  {
-    name: 'Material mass',
-    stat: '58.16',
-    unit: '%',
-    bgColor: 'bg-teal-700',
-    textColor: 'text-seaweed-green',
-  },
-  {
-    name: 'Build cost',
-    stat: '24.57',
-    unit: '%',
-    bgColor: 'bg-orange-300',
-    textColor: 'text-seaweed-green',
-  },
-  {
-    name: 'Energy use intensity',
-    stat: '24.57',
-    unit: '%',
-    bgColor: 'bg-red-200',
-    textColor: 'text-seaweed-green',
-  },
-  {
-    name: 'Other',
-    stat: '24.57',
-    unit: '%',
-    bgColor: 'bg-gray-300',
-    textColor: 'text-seaweed-green',
-  },
-  {
-    name: 'Other',
-    stat: '24.57',
-    unit: '%',
-    bgColor: 'bg-gray-300',
-    textColor: 'text-seaweed-green',
-  },
-];
-
 const phaseSteps = [
   { name: 'Concept', status: 'complete', icon: ClockIcon },
   { name: 'Planning', status: 'complete', icon: Square3Stack3DIcon },
@@ -172,7 +131,7 @@ const stats2 = [
   { id: 3, name: 'Completion', stat: '01.01.2022', icon: ClockIcon },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
@@ -429,62 +388,14 @@ export default function ProjectDashboard(props: ProjectProps) {
                         </ol>
                       </nav>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-medium leading-6 text-gray-900">
-                        Materials
-                      </h3>
-                      <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        {stats.map((item) => (
-                          <div
-                            key={item.name}
-                            className={classNames(
-                              item.bgColor,
-                              'overflow-hidden rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
-                            )}
-                          >
-                            <dt className="truncate text-sm font-medium text-white">
-                              {item.name}
-                            </dt>
-                            <dd className="mt-1 text-xl font-semibold tracking-tight">
-                              {item.stat}
-                            </dd>
-                            <dt className="truncate text-xs font-light text-white">
-                              {item.unit}
-                            </dt>
-                          </div>
-                        ))}
-                      </dl>
-                    </div>
+                    <BuildingMetrics />
                   </>
                 )}
 
                 {selectedTab.id === 2 && (
-                  <div>
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      Materials
-                    </h3>
-                    <dl className="overflow-x-auto whitespace-nowrap mt-5 grid grid-rows-1 grid-flow-col  gap-3 ">
-                      {stats.map((item) => (
-                        <div
-                          key={item.name}
-                          className={classNames(
-                            item.bgColor,
-                            'w-32 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
-                          )}
-                        >
-                          <dt className="truncate text-sm font-medium text-white">
-                            {item.name}
-                          </dt>
-                          <dd className="mt-1 text-xl font-semibold tracking-tight">
-                            {item.stat}
-                          </dd>
-                          <dt className="truncate text-xs font-light text-white">
-                            {item.unit}
-                          </dt>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
+                  <>
+                    <RadioBuildingMetrics />
+                  </>
                 )}
 
                 {selectedTab.id === 3 && (

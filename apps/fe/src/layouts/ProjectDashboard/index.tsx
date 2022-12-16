@@ -25,6 +25,7 @@ import {
   BuildingMetrics,
   RadioBuildingMetrics,
 } from 'components/MaterialsCards';
+import { PhaseDisplayer } from 'components/PhaseDisplayer';
 
 const Wrapper = styled.div`
   display: flex;
@@ -108,15 +109,6 @@ export type Building = {
   id: string;
   speckleObjects: SpeckleObject[];
 };
-
-const phaseSteps = [
-  { name: 'Concept', status: 'complete', icon: ClockIcon },
-  { name: 'Planning', status: 'complete', icon: Square3Stack3DIcon },
-  { name: 'Design', status: 'current', icon: Bars4Icon },
-  { name: 'Construction', status: 'upcoming', icon: Square3Stack3DIcon },
-  { name: 'Use', status: 'upcoming', icon: BuildingOfficeIcon },
-  { name: 'EoL', status: 'upcoming', icon: Square3Stack3DIcon },
-];
 
 const tabs = [
   { name: 'Overview', href: '#', id: 1 },
@@ -287,107 +279,7 @@ export default function ProjectDashboard(props: ProjectProps) {
                         ))}
                       </dl>
                     </div>
-                    <div className="p-1 py-3">
-                      <h3 className="text-lg font-medium leading-6 text-gray-900">
-                        Phase
-                      </h3>
-                      <nav aria-label="Progress">
-                        <ol
-                          role="list"
-                          className="flex items-center bg-gray-100 p-5 rounded-lg"
-                        >
-                          {phaseSteps.map((step, stepIdx) => (
-                            <li
-                              key={step.name}
-                              className={classNames(
-                                stepIdx !== step.length - 1 ? 'pr-8' : '',
-                                'relative'
-                              )}
-                            >
-                              {step.status === 'complete' ? (
-                                <>
-                                  <div
-                                    className="absolute inset-0 flex items-center"
-                                    aria-hidden="true"
-                                  >
-                                    <div className="h-4 mt-9 w-full bg-gray-600 rounded-l-lg" />
-                                  </div>
-                                  <div className="top-0 mb-3">
-                                    <step.icon
-                                      className="h-6 w-6 text-black"
-                                      aria-hidden="true"
-                                    />
-                                  </div>
-                                  <a
-                                    href="#"
-                                    className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 hover:bg-indigo-900"
-                                  >
-                                    <span className="mt-12 text-sm">
-                                      {step.name}
-                                    </span>
-                                  </a>
-                                </>
-                              ) : step.status === 'current' ? (
-                                <>
-                                  <div
-                                    className="absolute inset-0 flex items-center"
-                                    aria-hidden="true"
-                                  >
-                                    <div className="h-4 mt-9 w-full bg-gray-200" />
-                                  </div>
-                                  <div className="top-0 mb-3">
-                                    <step.icon
-                                      className="h-6 w-6 text-black"
-                                      aria-hidden="true"
-                                    />
-                                  </div>
-                                  <a
-                                    href="#"
-                                    className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-600 bg-white"
-                                    aria-current="step"
-                                  >
-                                    <span
-                                      className="h-2.5 w-2.5 rounded-full bg-gray-600"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="mt-12 text-sm">
-                                      {step.name}
-                                    </span>
-                                  </a>
-                                </>
-                              ) : (
-                                <>
-                                  <div
-                                    className="absolute inset-0 flex items-center"
-                                    aria-hidden="true"
-                                  >
-                                    <div className="h-4 mt-9 w-full bg-gray-200" />
-                                  </div>
-                                  <div className="top-0 mb-3">
-                                    <step.icon
-                                      className="h-6 w-6 text-black"
-                                      aria-hidden="true"
-                                    />
-                                  </div>
-                                  <a
-                                    href="#"
-                                    className="group relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white hover:border-gray-400"
-                                  >
-                                    <span
-                                      className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="mt-12 text-sm">
-                                      {step.name}
-                                    </span>
-                                  </a>
-                                </>
-                              )}
-                            </li>
-                          ))}
-                        </ol>
-                      </nav>
-                    </div>
+                    <PhaseDisplayer stage={4} />
                     <BuildingMetrics />
                   </>
                 )}

@@ -22,6 +22,7 @@ import {
 } from 'components/MaterialsCards';
 import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import VisualProjectInfo from 'components/VisualProjectInfo';
+import { ProjectInfoList } from 'components/ProjectInfoList';
 
 const Wrapper = styled.div`
   display: flex;
@@ -211,36 +212,7 @@ export default function ProjectDashboard(props: ProjectProps) {
 
                 {selectedTab.id === 1 && (
                   <>
-                    <div className="overflow-hidden bg-white sm:rounded-lg">
-                      <div className="px-2 py-3 sm:px-6">
-                        <h3 className="text-lg font-medium leading-6 text-gray-900">
-                          General
-                        </h3>
-                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                          subtext
-                        </p>
-                      </div>
-                      <div>
-                        <dl className="px-2 pb-3">
-                          <div className=" py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">
-                              Address
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                              Building A Singleton Park, Sketty, Swansea SA2 8PP
-                            </dd>
-                          </div>
-                          <div className="bg-white py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">
-                              Project
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                              Swansea X
-                            </dd>
-                          </div>
-                        </dl>
-                      </div>
-                    </div>
+                    <ProjectInfoList />
                     <VisualProjectInfo />
                     <PhaseDisplayer stage={4} />
                     <BuildingMetrics />

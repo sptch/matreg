@@ -241,7 +241,7 @@ export default function ProjectDashboard(props: ProjectProps) {
                     className="mt-2"
                   >
                     <RadioGroup.Label className="sr-only"></RadioGroup.Label>
-                    <div className="grid grid-cols-4 gap-3 bg-gray-400 rounded-full">
+                    <div className="grid grid-cols-4 gap-3 bg-gray-500 rounded-full">
                       {tabs.map((tab) => (
                         <RadioGroup.Option
                           key={tab.name}
@@ -249,11 +249,11 @@ export default function ProjectDashboard(props: ProjectProps) {
                           className={({ active, checked }) =>
                             classNames(
                               active
-                                ? 'ring-2 ring-offset-1 ring-blue-900'
+                                ? 'ring-2 ring-offset-1 ring-gray-900'
                                 : '',
                               checked
-                                ? 'bg-blue-900 border-transparent text-white hover:bg-blue-700'
-                                : 'bg-gray-400 border-gray-400 text-gray-900 hover:bg-gray-300',
+                                ? 'bg-gray-400 border-transparent text-white hover:bg-gray-200'
+                                : 'bg-gray-500 border-gray-500 text-gray-900 hover:bg-gray-300',
                               'space-x-4 bg-gray-400 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
                             )
                           }
@@ -467,7 +467,7 @@ export default function ProjectDashboard(props: ProjectProps) {
                           key={item.name}
                           className={classNames(
                             item.bgColor,
-                            'w-30 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
+                            'w-32 rounded-lg px-4 py-5 shadow sm:p-6 aspect-square'
                           )}
                         >
                           <dt className="truncate text-sm font-medium text-white">

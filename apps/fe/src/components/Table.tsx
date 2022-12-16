@@ -8,62 +8,64 @@ import {
 } from '@tanstack/react-table';
 
 export interface TableProps {
-  data?: Person[];
+  data?: Component[];
 }
 
-type Person = {
-  identifier: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  progress: number;
+type Component = {
+  identifier: number;
+  component: string;
+  location: string;
+  mass: number;
+  link: string;
 };
 
-const defaultData: Person[] = [
+const defaultData: Component[] = [
   {
-    identifier: 'AX45215',
-    lastName: 'linsley',
-    age: 24,
-    visits: 100,
-    progress: 50,
+    identifier: 12465,
+    component: 'linsley',
+    location: 'X',
+    mass: 100,
+    link: 'Link',
   },
   {
-    identifier: 'AX45215',
-    lastName: 'miller',
-    age: 40,
-    visits: 40,
-    progress: 80,
+    identifier: 54654,
+    component: 'miller',
+    location: 'X',
+    mass: 40,
+    link: 'Link',
   },
   {
-    identifier: 'AX45215',
-    lastName: 'dirte',
-    age: 45,
-    visits: 20,
-    progress: 10,
+    identifier: 456465,
+    component: 'dirte',
+    location: 'X',
+    mass: 20,
+    link: 'Link',
   },
 ];
 
-const columnHelper = createColumnHelper<Person>();
+const columnHelper = createColumnHelper<Component>();
 
 const columns = [
   columnHelper.accessor('identifier', {
     cell: (info) => info.getValue(),
     header: () => <span>ID</span>,
   }),
-  columnHelper.accessor((row) => row.lastName, {
-    id: 'lastName',
-    cell: (info) => <i>{info.getValue()}</i>,
+  columnHelper.accessor((row) => row.component, {
+    id: 'component',
+    cell: (info) => info.getValue(),
     header: () => <span>COMPONENT</span>,
   }),
-  columnHelper.accessor('age', {
-    cell: (info) => info.renderValue(),
+  columnHelper.accessor('location', {
+    cell: (info) => info.getValue(),
     header: () => <span>LOCATION</span>,
   }),
-  columnHelper.accessor('visits', {
+  columnHelper.accessor('mass', {
     header: () => <span>kgCO₂e</span>,
   }),
-  columnHelper.accessor('progress', {
-    header: 'Link',
+  columnHelper.accessor((row) => row.link, {
+    id: 'link',
+    cell: (info) => info.getValue(),
+    header: () => <span>Link</span>,
   }),
 ];
 

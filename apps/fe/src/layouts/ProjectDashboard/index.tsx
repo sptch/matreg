@@ -168,8 +168,8 @@ export default function ProjectDashboard(props: ProjectProps) {
         {!selected && (
           <Panel>
             <PanelContent>
-              <Header title="Building" details=" details"/>
-                <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
+              <Header title={props.name} details={props.description} />
+              <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
               <>
                 {selectedTab.id === 1 && (
                   <>

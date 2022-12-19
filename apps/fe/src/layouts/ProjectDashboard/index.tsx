@@ -20,7 +20,7 @@ import MenuSelector from 'components/MenuSelector';
 import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
-
+import ElementInfoList from 'components/ElementInfo';
 
 const Wrapper = styled.div`
   display: flex;
@@ -111,7 +111,11 @@ export default function ProjectDashboard(props: ProjectProps) {
     atoms.preSelectedObjects
   );
 
-  const [selectedTab, setSelectedTab] = useState({ name: 'Overview', href: '#', id: 1 });
+  const [selectedTab, setSelectedTab] = useState({
+    name: 'Overview',
+    href: '#',
+    id: 1,
+  });
 
   return (
     <Wrapper>
@@ -180,6 +184,7 @@ export default function ProjectDashboard(props: ProjectProps) {
             <Panel>
               <PanelContent>
                 <BuildingElementData />
+                <ElementInfoList />
               </PanelContent>
             </Panel>
           </>

@@ -23,6 +23,7 @@ import VisualProjectInfo from 'components/VisualProjectInfo';
 import ElementInfoList from 'components/ElementInfo';
 import BuildingTable from 'components/Tables/BuidingTable';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
+import Header from 'components/Header';
 
 /* types */
 import type { Tab } from 'components/MenuSelector';
@@ -167,7 +168,8 @@ export default function ProjectDashboard(props: ProjectProps) {
         {!selected && (
           <Panel>
             <PanelContent>
-              <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
+              <Header title="Building" details=" details"/>
+                <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
               <>
                 {selectedTab.id === 1 && (
                   <>
@@ -186,8 +188,8 @@ export default function ProjectDashboard(props: ProjectProps) {
         {selected && (
           <>
             <Panel>
+              <Header title={selectedObject?.family} details=" details" />
               <PanelHeader>
-                <H1>{selectedObject?.family}</H1>
                 <CloseButton onClick={() => setSelected(null)}>
                   <CloseIcon />
                 </CloseButton>

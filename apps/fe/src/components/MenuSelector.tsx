@@ -17,7 +17,7 @@ export interface MenuSelectorProps {
 }
 
 export default function MenuSelector(props: MenuSelectorProps) {
-  const [tabs, setTabs] = React.useState(props.tabs); // [ { name: 'Overview', id: 1 }, { name: 'Impact', id: 2 }, { name: 'Performance', id: 3 }
+  const [tabs, setTabs] = React.useState(props.tabs);
   const [selectedTab, setSelectedTab] = React.useState(tabs[0]);
 
   React.useEffect(() => {
@@ -32,22 +32,14 @@ export default function MenuSelector(props: MenuSelectorProps) {
   }, [props.tabs]);
 
   return (
-    <div className="border-b border-gray-200 bg-gray-700 rounded-2xl rounded-b-3xl">
-      <div className="sm:px-6 py-5 -ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-        <h3 className="px-3 py-3 text-lg font-medium leading-6 text-white">
-          Building A
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm text-white">
-          Details about the building
-        </p>
-      </div>
+    <div className="">
       <RadioGroup
         value={selectedTab}
         onChange={setSelectedTab}
-        className="mt-2"
+        className="w-full"
       >
         <RadioGroup.Label className="sr-only"></RadioGroup.Label>
-        <div className="grid grid-cols-4 gap-3 bg-gray-500 rounded-full">
+        <div className="grid grid-cols-4 gap-1 bg-gray-500 rounded-full">
           {tabs.map((tab) => (
             <RadioGroup.Option
               key={tab.name}

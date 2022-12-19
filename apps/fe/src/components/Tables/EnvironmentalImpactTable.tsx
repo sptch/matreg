@@ -36,27 +36,27 @@ const defaultData: EnvironmentalImpact[] = [
   },
 ];
 
-const environmentalImpactColumnHelper =
+const columnHelper =
   createColumnHelper<EnvironmentalImpact>();
 
 const environmentalImpactColumns = [
-  environmentalImpactColumnHelper.accessor('category', {
+  columnHelper.accessor('category', {
     cell: (info) => info.getValue(),
     header: () => <span>Category</span>,
   }),
-  environmentalImpactColumnHelper.accessor('Scope', {
+  columnHelper.accessor('Scope', {
     cell: (info) => info.getValue(),
     header: () => <span>Scope</span>,
   }),
-  environmentalImpactColumnHelper.accessor('Unit', {
+  columnHelper.accessor('Unit', {
     cell: (info) => info.getValue(),
     header: () => <span>Unit</span>,
   }),
-  environmentalImpactColumnHelper.accessor('Value', {
+  columnHelper.accessor('Value', {
     cell: (info) => info.getValue(),
     header: () => <span>Value</span>,
   }),
-  environmentalImpactColumnHelper.accessor('Link', {
+  columnHelper.accessor('Link', {
     cell: (info) => info.getValue(),
     header: () => <span>Source</span>,
   }),

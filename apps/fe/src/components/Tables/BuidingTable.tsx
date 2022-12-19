@@ -43,26 +43,26 @@ const defaultData: Component[] = [
   },
 ];
 
-const buildingColumnHelper = createColumnHelper<Component>();
+const columnHelper = createColumnHelper<Component>();
 
 const columns = [
-  buildingColumnHelper.accessor('identifier', {
+  columnHelper.accessor('identifier', {
     cell: (info) => info.getValue(),
     header: () => <span>ID</span>,
   }),
-  buildingColumnHelper.accessor((row) => row.component, {
+  columnHelper.accessor((row) => row.component, {
     id: 'component',
     cell: (info) => info.getValue(),
     header: () => <span>COMPONENT</span>,
   }),
-  buildingColumnHelper.accessor('location', {
+  columnHelper.accessor('location', {
     cell: (info) => info.getValue(),
     header: () => <span>LOCATION</span>,
   }),
-  buildingColumnHelper.accessor('mass', {
+  columnHelper.accessor('mass', {
     header: () => <span>kgCO₂e</span>,
   }),
-  buildingColumnHelper.accessor((row) => row.link, {
+  columnHelper.accessor((row) => row.link, {
     id: 'link',
     cell: (info) => info.getValue(),
     header: () => <span>Link</span>,

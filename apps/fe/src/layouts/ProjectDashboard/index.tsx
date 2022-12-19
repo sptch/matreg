@@ -11,6 +11,7 @@ import { BuildingElementData, H1 } from 'containers/BuildingElementData';
 import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
 import { SpeckleObject } from 'containers/Viewer';
 
+/* components */
 import {
   BuildingMetrics,
   RadioBuildingMetrics,
@@ -20,7 +21,9 @@ import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
 import ElementInfoList from 'components/ElementInfo';
-import { BuildingTable, EnvironmentalImpactTable } from 'components/Table';
+import BuildingTable from 'components/Tables/BuidingTable';
+import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
+
 
 const Wrapper = styled.div`
   display: flex;

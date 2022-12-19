@@ -15,12 +15,12 @@ import {
   BuildingMetrics,
   RadioBuildingMetrics,
 } from 'components/MaterialsCards';
-import Table from 'components/Table';
 import MenuSelector from 'components/MenuSelector';
 import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
 import ElementInfoList from 'components/ElementInfo';
+import { BuildingTable, EnvironmentalImpactTable } from 'components/Table';
 
 const Wrapper = styled.div`
   display: flex;
@@ -163,7 +163,7 @@ export default function ProjectDashboard(props: ProjectProps) {
 
               {selectedTab.id === 3 && (
                 <div>
-                  <Table />
+                  <BuildingTable />
                 </div>
               )}
             </PanelContent>
@@ -185,6 +185,7 @@ export default function ProjectDashboard(props: ProjectProps) {
               <PanelContent>
                 <BuildingElementData />
                 <ElementInfoList />
+                <EnvironmentalImpactTable />
               </PanelContent>
             </Panel>
           </>

@@ -6,28 +6,30 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-type Tab = {
+export type Tab = {
   name: string;
-  href: string;
   id: number;
 };
 
-const tabs: Tab[] = [
-  { name: 'Overview', href: '#', id: 1 },
-  { name: 'Impact', href: '#', id: 2 },
-  { name: 'Performance', href: '#', id: 3 },
-];
-
 export interface MenuSelectorProps {
+  tabs: Tab[];
   callback: (tab: Tab) => void;
 }
 
 export default function MenuSelector(props: MenuSelectorProps) {
+  const [tabs, setTabs] = React.useState(props.tabs); // [ { name: 'Overview', id: 1 }, { name: 'Impact', id: 2 }, { name: 'Performance', id: 3 }
   const [selectedTab, setSelectedTab] = React.useState(tabs[0]);
 
   React.useEffect(() => {
     props.callback(selectedTab);
   }, [selectedTab, props]);
+
+  React.useEffect(() => {
+    if (props.tabs.length > 0) {
+      setTabs(props.tabs);
+      setSelectedTab(props.tabs[0]);
+    }
+  }, [props.tabs]);
 
   return (
     <div className="border-b border-gray-200 bg-gray-700 rounded-2xl rounded-b-3xl">

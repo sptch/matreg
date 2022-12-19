@@ -24,6 +24,8 @@ import ElementInfoList from 'components/ElementInfo';
 import BuildingTable from 'components/Tables/BuidingTable';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
 
+/* types */
+import type { Tab } from 'components/MenuSelector';
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,7 +69,6 @@ const Panel = styled.div`
   PanelContent = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 10px;
   `,
   CloseButton = styled.button`
     all: unset;
@@ -103,6 +104,19 @@ export type Building = {
   speckleObjects: SpeckleObject[];
 };
 
+const ProjectTabs: Tab[] = [
+  { name: 'Overview', id: 1 },
+  { name: 'Impact', id: 2 },
+  { name: 'Performance', id: 3 },
+];
+
+const selectedElementTabs: Tab[] = [
+  { name: 'Overview', id: 1 },
+  { name: 'Metrics', id: 2 },
+  { name: 'Financial', id: 3 },
+  { name: 'Log', id: 4 },
+];
+
 export default function ProjectDashboard(props: ProjectProps) {
   const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
   const [selectedObject, setSelectedObject] = useRecoilState(
@@ -113,12 +127,18 @@ export default function ProjectDashboard(props: ProjectProps) {
   const [preSelectedObjects, setPreSelectedObjects] = useRecoilState(
     atoms.preSelectedObjects
   );
+  const [menuTabs, setMenuTabs] = useState(ProjectTabs);
+  const [selectedTab, setSelectedTab] = useState(menuTabs[0]);
 
-  const [selectedTab, setSelectedTab] = useState({
-    name: 'Overview',
-    href: '#',
-    id: 1,
-  });
+  React.useEffect(() => {
+    if (selected) {
+      setMenuTabs(selectedElementTabs);
+      setSelectedTab(selectedElementTabs[0]);
+    } else {
+      setMenuTabs(ProjectTabs);
+      setSelectedTab(ProjectTabs[0]);
+    }
+  }, [selected]);
 
   return (
     <Wrapper>
@@ -147,28 +167,19 @@ export default function ProjectDashboard(props: ProjectProps) {
         {!selected && (
           <Panel>
             <PanelContent>
-              <MenuSelector callback={setSelectedTab} />
-
-              {selectedTab.id === 1 && (
-                <>
-                  <ProjectInfoList />
-                  <VisualProjectInfo />
-                  <PhaseDisplayer stage={4} />
-                  <BuildingMetrics />
-                </>
-              )}
-
-              {selectedTab.id === 2 && (
-                <>
-                  <RadioBuildingMetrics />
-                </>
-              )}
-
-              {selectedTab.id === 3 && (
-                <div>
-                  <BuildingTable />
-                </div>
-              )}
+              <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
+              <>
+                {selectedTab.id === 1 && (
+                  <>
+                    <ProjectInfoList />
+                    <VisualProjectInfo />
+                    <PhaseDisplayer stage={4} />
+                    <BuildingMetrics />
+                  </>
+                )}
+                {selectedTab.id === 2 && <RadioBuildingMetrics />}
+                {selectedTab.id === 3 && <BuildingTable />}
+              </>
             </PanelContent>
           </Panel>
         )}
@@ -182,13 +193,10 @@ export default function ProjectDashboard(props: ProjectProps) {
                 </CloseButton>
               </PanelHeader>
               <ViewerPreview />
-            </Panel>
-
-            <Panel>
               <PanelContent>
-                <BuildingElementData />
-                <ElementInfoList />
-                <EnvironmentalImpactTable />
+                <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
+                {selectedTab.id === 1 && <ElementInfoList />}
+                {selectedTab.id === 2 && <EnvironmentalImpactTable />}
               </PanelContent>
             </Panel>
           </>

@@ -11,6 +11,9 @@ import { BuildingElementData, H1 } from 'containers/BuildingElementData';
 import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
 import { SpeckleObject } from 'containers/Viewer';
 
+/* types */
+import type { Tab } from 'components/MenuSelector';
+
 /* components */
 import {
   BuildingMetrics,
@@ -24,9 +27,7 @@ import ElementInfoList from 'components/ElementInfo';
 import BuildingTable from 'components/Tables/BuidingTable';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
 import Header from 'components/Header';
-
-/* types */
-import type { Tab } from 'components/MenuSelector';
+import MaterialsComposition from 'components/MaterialsComposition';
 
 const Wrapper = styled.div`
   display: flex;
@@ -170,7 +171,7 @@ export default function ProjectDashboard(props: ProjectProps) {
             <PanelContent>
               <Header title={props.name} details={props.description} />
               <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
-              <>
+              <div className="m-3">
                 {selectedTab.id === 1 && (
                   <>
                     <ProjectInfoList />
@@ -181,7 +182,7 @@ export default function ProjectDashboard(props: ProjectProps) {
                 )}
                 {selectedTab.id === 2 && <RadioBuildingMetrics />}
                 {selectedTab.id === 3 && <BuildingTable />}
-              </>
+              </div>
             </PanelContent>
           </Panel>
         )}
@@ -197,8 +198,15 @@ export default function ProjectDashboard(props: ProjectProps) {
               <ViewerPreview />
               <PanelContent>
                 <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
-                {selectedTab.id === 1 && <ElementInfoList />}
-                {selectedTab.id === 2 && <EnvironmentalImpactTable />}
+                <div className="m-3">
+                  {selectedTab.id === 1 && (
+                    <>
+                      <ElementInfoList />
+                      <MaterialsComposition />
+                    </>
+                  )}
+                  {selectedTab.id === 2 && <EnvironmentalImpactTable />}
+                </div>
               </PanelContent>
             </Panel>
           </>

@@ -18,6 +18,10 @@ import {
   BuildingMetrics,
   RadioBuildingMetrics,
 } from 'components/MaterialsCards';
+import {
+  MaterialsComposition,
+  MaterialsTreeMap,
+} from 'components/MaterialsComposition';
 import Header from 'components/Header';
 import MenuSelector from 'components/MenuSelector';
 import ElementInfoList from 'components/ElementInfo';
@@ -25,11 +29,8 @@ import BuildingTable from 'components/Tables/BuidingTable';
 import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
-import {
-  MaterialsComposition,
-  MaterialsTreeMap,
-} from 'components/MaterialsComposition';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
+import CircularityBarChart from 'components/CircularityBarChart';
 
 const Wrapper = styled.div`
   display: flex;
@@ -111,7 +112,7 @@ export type Building = {
 const ProjectTabs: Tab[] = [
   { name: 'Overview', id: 1 },
   { name: 'Impact', id: 2 },
-  { name: 'Performance', id: 3 },
+  { name: 'Inventory', id: 3 },
 ];
 
 const selectedElementTabs: Tab[] = [
@@ -212,7 +213,12 @@ export default function ProjectDashboard(props: ProjectProps) {
                       <MaterialsComposition />
                     </>
                   )}
-                  {selectedTab.id === 2 && <EnvironmentalImpactTable />}
+                  {selectedTab.id === 2 && (
+                    <>
+                      <CircularityBarChart data={[20, 18, 80, 90]} />
+                      <EnvironmentalImpactTable />
+                    </>
+                  )}
                 </div>
               </PanelContent>
             </Panel>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NextPage } from 'next';
 import styled from 'styled-components';
 import 'tailwindcss/tailwind.css';
 
@@ -7,9 +6,9 @@ import Viewer from 'containers/Viewer';
 import ViewerPreview from 'containers/ViewerPreview';
 import { useRecoilState } from 'recoil';
 import { atoms } from 'common/recoil';
-import { BuildingElementData, H1 } from 'containers/BuildingElementData';
-import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
 import { SpeckleObject } from 'containers/Viewer';
+import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
+import { BuildingElementData, H1 } from 'containers/BuildingElementData';
 
 /* types */
 import type { Tab } from 'components/MenuSelector';
@@ -19,15 +18,18 @@ import {
   BuildingMetrics,
   RadioBuildingMetrics,
 } from 'components/MaterialsCards';
+import Header from 'components/Header';
 import MenuSelector from 'components/MenuSelector';
+import ElementInfoList from 'components/ElementInfo';
+import BuildingTable from 'components/Tables/BuidingTable';
 import { PhaseDisplayer } from 'components/PhaseDisplayer';
 import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
-import ElementInfoList from 'components/ElementInfo';
-import BuildingTable from 'components/Tables/BuidingTable';
+import {
+  MaterialsComposition,
+  MaterialsTreeMap,
+} from 'components/MaterialsComposition';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
-import Header from 'components/Header';
-import MaterialsComposition from 'components/MaterialsComposition';
 
 const Wrapper = styled.div`
   display: flex;
@@ -180,7 +182,12 @@ export default function ProjectDashboard(props: ProjectProps) {
                     <BuildingMetrics />
                   </>
                 )}
-                {selectedTab.id === 2 && <RadioBuildingMetrics />}
+                {selectedTab.id === 2 && (
+                  <>
+                    <RadioBuildingMetrics />
+                    <MaterialsTreeMap />
+                  </>
+                )}
                 {selectedTab.id === 3 && <BuildingTable />}
               </div>
             </PanelContent>

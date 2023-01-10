@@ -8,33 +8,48 @@ type CircularInfo = {
   color: string;
 };
 
-const circularLabels = ['% reused', '% recycled', '% reusable', '% recyclable'];
+const defaultProps = {
+  data: [50, 87, 14, 85],
+};
 
-const circularColors = ['#F56565', '#ED8936', '#48BB78', '#4299E1'];
+export interface barChartProps {
+  data: number[];
+}
 
 function formatDataforBarChart(data: number[]): CircularInfo[] {
-  return data.map((d, i) => {
-    return {
-      name: circularLabels[i],
-      value: d,
-      color: circularColors[i],
-    };
-  });
+  const circularData = [
+    {
+      name: '% recyclable',
+      value: data[3],
+      color: '#43978F',
+    },
+    {
+      name: '% reusable',
+      value: data[2],
+      color: '#43978F',
+    },
+    {
+      name: '% recycled',
+      value: data[1],
+      color: '#F87171',
+    },
+    {
+      name: '% reused',
+      value: data[0],
+      color: '#FDBA74',
+    },
+  ];
+
+  return circularData;
 }
 
 function formatLabel(e: any) {
   return e.formattedValue + ' %';
 }
 
-type Props = {
-  data: number[];
-};
-
-const defaultProps = {
-  data: [50, 87, 14, 85],
-};
-
-export default function CircularityBarChart(props: Props = defaultProps) {
+export default function CircularityBarChart(
+  props: barChartProps = defaultProps
+) {
   const [data, setData] = React.useState(formatDataforBarChart(props.data));
 
   React.useEffect(() => {
@@ -45,22 +60,22 @@ export default function CircularityBarChart(props: Props = defaultProps) {
 
   return (
     <>
-      <div className="px-2 py-3">
+      <div className="px-2 py-2">
         <h3 className="text-lg font-medium leading-6 text-gray-900">
           Circularity
         </h3>
 
-        <div className="overflow-hidden rounded-lg p-2 bg-white">
-          <div className="flex rounded-lg" style={{ height: 250 }}>
+        <div className="overflow-hidden rounded-lg">
+          <div className="flex" style={{ height: 180 }}>
             <ResponsiveBar
               data={data}
               keys={['value']}
               indexBy="name"
               margin={{ top: 10, right: 20, bottom: 10, left: 80 }}
-              padding={0.3}
-              colors={{ scheme: 'nivo' }}
+              padding={0.4}
+              colors={(d) => d.data.color}
               layout="horizontal"
-              borderRadius={20}
+              borderRadius={15}
               colorBy="indexValue"
               enableGridY={false}
               axisBottom={null}

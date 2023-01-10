@@ -4,7 +4,7 @@ import { RadioGroup } from '@headlessui/react';
 
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
-type Stat = {
+export type Stat = {
   name: string;
   value: string;
   target: number;
@@ -64,10 +64,6 @@ const defaultStats: Stat[] = [
   },
 ];
 
-export interface MetricsProps {
-  data?: Stat[];
-}
-
 export interface MetricsRadioGroupProps {
   data?: Stat[];
   callback?: (tab: Stat) => void;
@@ -83,7 +79,7 @@ const Card = (props: Stat) => {
       className={classNames(
         props.bgColor,
         props.textColor,
-        'overflow-hidden rounded-lg px-3 py-4 shadow aspect-square'
+        'overflow-hidden rounded-lg px-3 py-4 shadow aspect-square hover:brightness-110'
       )}
     >
       <dt className="truncate text-sm font-medium text-white">{props.name}</dt>
@@ -106,8 +102,9 @@ const Card = (props: Stat) => {
   );
 };
 
-export function BuildingMetrics(props: MetricsProps) {
+export function BuildingMetrics(props: MetricsRadioGroupProps) {
   const [stats, setStats] = React.useState(() => [...defaultStats]);
+  const [selected, setSelected] = React.useState<Stat>();
 
   React.useEffect(() => {
     if (props.data) {
@@ -115,25 +112,50 @@ export function BuildingMetrics(props: MetricsProps) {
     }
   }, [props.data]);
 
+  React.useEffect(() => {
+    if (selected) {
+      if (props.callback) {
+        props.callback(selected);
+      }
+    }
+  }, [selected, props]);
+
   return (
     <div>
-      <h3 className="text-lg font-medium leading-6 text-gray-900">
-        Building Metrics
-      </h3>
-      <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {stats.map((item) => (
-          <div key={item.name}>
-            <Card {...item} />
-          </div>
-        ))}
-      </dl>
+      <div className="py-5">
+        <h3 className="text-lg font-medium leading-6 text-gray-900">
+          Building Metrics
+        </h3>
+        <RadioGroup value={selected} onChange={setSelected} className="mt-2">
+          <RadioGroup.Label className="sr-only"></RadioGroup.Label>
+          <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 ">
+            {stats.map((item) => (
+              <RadioGroup.Option
+                key={item.name}
+                value={item}
+                className={({ active, checked }) =>
+                  classNames(
+                    active ? 'shadow' : 'brightness-90',
+                    checked ? ' shadow' : 'shadow-sm hover:shadow-md',
+                    'w-[9rem] '
+                  )
+                }
+              >
+                <RadioGroup.Label as="span">
+                  <Card {...item} />
+                </RadioGroup.Label>
+              </RadioGroup.Option>
+            ))}
+          </dl>
+        </RadioGroup>
+      </div>
     </div>
   );
 }
 
 export function RadioBuildingMetrics(props: MetricsRadioGroupProps) {
   const [stats, setStats] = React.useState(() => [...defaultStats]);
-  const [selected, setSelected] = React.useState(stats[0]);
+  const [selected, setSelected] = React.useState<Stat>(stats[0]);
 
   React.useEffect(() => {
     if (props.data) {
@@ -152,7 +174,7 @@ export function RadioBuildingMetrics(props: MetricsRadioGroupProps) {
       <h3 className="text-lg font-medium leading-6 text-gray-900">Materials</h3>
       <RadioGroup value={selected} onChange={setSelected} className="mt-2">
         <RadioGroup.Label className="sr-only"></RadioGroup.Label>
-        <dl className="overflow-x-auto whitespace-nowrap grid grid-rows-1 grid-flow-col  gap-3 ">
+        <dl className="overflow-x-auto whitespace-nowrap grid grid-rows-1 grid-flow-col gap-3 ">
           {stats.map((item) => (
             <RadioGroup.Option
               key={item.name}

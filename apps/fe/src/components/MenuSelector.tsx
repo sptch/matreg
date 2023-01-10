@@ -49,7 +49,7 @@ export default function MenuSelector(props: MenuSelectorProps) {
                   checked
                     ? 'bg-gray-400 border-transparent text-white hover:bg-gray-300'
                     : 'bg-gray-500 border-gray-500 text-gray-900 hover:bg-gray-300',
-                  'space-x-4 bg-gray-500 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
+                  'space-x-4 rounded-full border py-3 px-3 flex items-center justify-center text-sm font-sm sm:flex-1'
                 )
               }
             >

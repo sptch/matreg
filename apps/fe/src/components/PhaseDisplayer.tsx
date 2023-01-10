@@ -49,7 +49,7 @@ export function PhaseDisplayer(props: PhaseDisplayerProps) {
               key={step.name}
               className={classNames(
                 stepIdx !== phaseSteps.length - 1 ? 'pr-8' : '',
-                'relative'
+                'relative flex-auto flex-col'
               )}
             >
               {step.id < stage ? (
@@ -58,7 +58,7 @@ export function PhaseDisplayer(props: PhaseDisplayerProps) {
                     className="absolute inset-0 flex items-center"
                     aria-hidden="true"
                   >
-                    <div className="h-4 mt-9 w-full bg-gray-600 rounded-l-lg" />
+                    <div className="h-4 mt-9 w-full bg-gray-400 rounded-l-lg" />
                   </div>
                   <div className="top-0 mb-3">
                     <step.icon
@@ -68,7 +68,7 @@ export function PhaseDisplayer(props: PhaseDisplayerProps) {
                   </div>
                   <a
                     href="#"
-                    className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 hover:bg-indigo-900"
+                    className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gray-600"
                   >
                     <span className="mt-12 text-sm">{step.name}</span>
                   </a>

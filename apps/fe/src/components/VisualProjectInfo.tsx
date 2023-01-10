@@ -31,11 +31,11 @@ export default function VisualProjectInfo(props: VisualProjectInfoProps) {
   // Make this element more interactive when we have an idea of what the data will look like
   return (
     <div>
-      <dl className="mt-5 grid grid-rows-1 grid-flow-col gap-2">
+      <dl className="mt-5 grid grid-rows-1 grid-flow-col gap-4">
         {stats.map((item) => (
           <div
             key={item.id}
-            className="relative overflow-hidden rounded-lg bg-gray-50 px-1 pt-1 pb-1 shadow sm:px-1 sm:pt-1"
+            className="relative overflow-hidden rounded-lg bg-gray-100 px-1 pt-1 pb-1 shadow sm:px-1 sm:pt-1"
           >
             <dt>
               <div className="top-0 rounded-md p-2">

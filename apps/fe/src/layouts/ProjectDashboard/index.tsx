@@ -31,6 +31,7 @@ import { ProjectInfoList } from 'components/ProjectInfoList';
 import VisualProjectInfo from 'components/VisualProjectInfo';
 import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
 import CircularityBarChart from 'components/CircularityBarChart';
+import FinancialProjection from 'components/FinancialProjection';
 
 const Wrapper = styled.div`
   display: flex;
@@ -207,18 +208,24 @@ export default function ProjectDashboard(props: ProjectProps) {
               <PanelContent>
                 <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
                 <div className="m-3">
-                  {selectedTab.id === 1 && (
+                  {selectedTab.name === 'Overview' && (
                     <>
                       <ElementInfoList />
                       <MaterialsComposition />
                     </>
                   )}
-                  {selectedTab.id === 2 && (
+                  {selectedTab.name === 'Metrics' && (
                     <>
                       <CircularityBarChart data={[20, 18, 80, 90]} />
                       <EnvironmentalImpactTable />
                     </>
                   )}
+                  {selectedTab.name === 'Financial' && (
+                    <>
+                      <FinancialProjection />
+                    </>
+                  )}
+                  {selectedTab.name === 'Log' && <></>}
                 </div>
               </PanelContent>
             </Panel>

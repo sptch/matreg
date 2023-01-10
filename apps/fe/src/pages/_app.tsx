@@ -6,6 +6,8 @@ import Inter from '../../../../libs/common/src/fonts/Inter';
 import GlobalStyle from '../components/globalstyles';
 import { ApolloProvider, InMemoryCache } from '@apollo/client';
 import { client } from 'common';
+import 'tailwindcss/tailwind.css';
+import './styles.css';
 
 export const theme: DefaultTheme = {
   colors: {

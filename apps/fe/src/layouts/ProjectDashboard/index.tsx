@@ -1,83 +1,37 @@
-import React, { useEffect } from 'react';
-import { NextPage } from 'next';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import 'tailwindcss/tailwind.css';
 
 import Viewer from 'containers/Viewer';
 import ViewerPreview from 'containers/ViewerPreview';
 import { useRecoilState } from 'recoil';
 import { atoms } from 'common/recoil';
-import { BuildingElementData, H1 } from 'containers/BuildingElementData';
-import { ReactComponent as CloseIcon } from '@assets/icons/close.svg';
 import { SpeckleObject } from 'containers/Viewer';
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow-y: hidden;
-`;
+/* types */
+import type { Tab } from 'components/MenuSelector';
+import type { Stat } from 'components/MaterialsCards';
 
-// viewer vindow top right corner panel
-const Panel = styled.div`
-    position: relative;
-    display: flex;
-    width: 480px;
-    // margin for last child div
-    flex-direction: column;
-    border: 3px solid #ffffff;
-    border-radius: 20px;
-    background-color: white;
-    z-index: 100;
-    filter: drop-shadow(0px 10px 10px rgba(0, 0, 0, 0.1));
-  `,
-  SidePanel = styled.div`
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-
-    top: 16px;
-    right: 16px;
-    gap: 16px;
-    width: 480px;
-    z-index: 100;
-  `,
-  PanelHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    padding: 10px;
-  `,
-  PanelTitle = styled.h3`
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-  `,
-  PanelContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 0 10px;
-  `,
-  CloseButton = styled.button`
-    all: unset;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-  `,
-  SearchBar = styled.input`
-    all: unset;
-    width: 100%;
-    border-radius: 20px;
-    height: 40px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    ::placeholder {
-      color: #9ca3af;
-    }
-  `;
+/* components */
+import {
+  BuildingMetrics,
+  RadioBuildingMetrics,
+} from 'components/MaterialsCards';
+import {
+  MaterialsComposition,
+  MaterialsTreeMap,
+} from 'components/MaterialsComposition';
+import Header from 'components/Header';
+import LogPage from 'components/LogPage';
+import MenuSelector from 'components/MenuSelector';
+import ElementInfoList from 'components/ElementInfo';
+import { XMarkIcon } from '@heroicons/react/24/solid';
+import BuildingTable from 'components/Tables/BuidingTable';
+import { PhaseDisplayer } from 'components/PhaseDisplayer';
+import { ProjectInfoList } from 'components/ProjectInfoList';
+import VisualProjectInfo from 'components/VisualProjectInfo';
+import EnvironmentalImpactTable from 'components/Tables/EnvironmentalImpactTable';
+import CircularityBarChart from 'components/CircularityBarChart';
+import FinancialProjection from 'components/FinancialProjection';
 
 export type ProjectProps = {
   name: string;
@@ -93,6 +47,19 @@ export type Building = {
   speckleObjects: SpeckleObject[];
 };
 
+const ProjectTabs: Tab[] = [
+  { name: 'Overview', id: 1 },
+  { name: 'Impact', id: 2 },
+  { name: 'Inventory', id: 3 },
+];
+
+const selectedElementTabs: Tab[] = [
+  { name: 'Overview', id: 1 },
+  { name: 'Metrics', id: 2 },
+  { name: 'Financial', id: 3 },
+  { name: 'Log', id: 4 },
+];
+
 export default function ProjectDashboard(props: ProjectProps) {
   const [selected, setSelected] = useRecoilState(atoms.selectedObjectId);
   const [selectedObject, setSelectedObject] = useRecoilState(
@@ -103,52 +70,135 @@ export default function ProjectDashboard(props: ProjectProps) {
   const [preSelectedObjects, setPreSelectedObjects] = useRecoilState(
     atoms.preSelectedObjects
   );
+  const [menuTabs, setMenuTabs] = useState(ProjectTabs);
+  const [selectedTab, setSelectedTab] = useState(menuTabs[0]);
+  const [selectedBuildingMetric, setSelectedBuildingMetric] =
+    React.useState<Stat>();
+
+  React.useEffect(() => {
+    if (selected) {
+      setMenuTabs(selectedElementTabs);
+      setSelectedTab(selectedElementTabs[0]);
+    } else {
+      setMenuTabs(ProjectTabs);
+      setSelectedTab(ProjectTabs[0]);
+    }
+  }, [selected]);
+
+  function selectBuildingMetric(metric: Stat) {
+    if (metric) {
+      setSelectedBuildingMetric(metric);
+    }
+  }
 
   return (
-    <Wrapper>
-      <SidePanel>
-        <Panel>
-          <PanelContent>
-            <SearchBar
-              placeholder="Search by Component Name or Unique ID"
-              onChange={(e) => (setSearch(e.target.value), setSelected(null))}
-            />
-          </PanelContent>
-        </Panel>
-        {preSelectedObjects &&
-          !selected &&
-          preSelectedObjects.map((obj) => (
-            <Panel
-              key={obj?.id}
-              onPointerEnter={() => setHovered(obj?.id)}
-              onPointerLeave={() => setHovered(null)}
-              onClick={() => setSelected(obj?.id)}
-            >
-              <H1>{obj?.family}</H1>
-            </Panel>
-          ))}
-        {selected && (
-          <>
-            <Panel>
-              <PanelHeader>
-                <H1>{selectedObject?.family}</H1>
-                <CloseButton onClick={() => setSelected(null)}>
-                  <CloseIcon />
-                </CloseButton>
-              </PanelHeader>
+    <div className="flex items-center justify-center h-screen overflow-y-auto">
+      <div
+        id="SearchBar"
+        className="absolute top-2 left-2 z-10 w-80 bg-gray-100 rounded-2xl "
+      >
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Search by Component Name or Unique ID"
+          onChange={(e) => (setSearch(e.target.value), setSelected(null))}
+          className="flex drop-shadow-sm w-full border-2 border-gray-300 bg-white h-10 px-5 rounded-full text-sm shadow-lg"
+        />
+        <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+          <button
+            className="inline-flex items-top pt-1 rounded-full "
+            onClick={() => setSearch('')}
+          >
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+        <div className="flex flex-col items-left px-2 overflow-auto">
+          {preSelectedObjects &&
+            !selected &&
+            preSelectedObjects.map((obj) => (
+              <div
+                key={obj?.id}
+                onPointerEnter={() => setHovered(obj?.id)}
+                onPointerLeave={() => setHovered(null)}
+                onClick={() => setSelected(obj?.id)}
+                className="flex rounded-full hover:bg-gray-200 text-sm font-medium p-2"
+              >
+                <div>{obj?.family}</div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      <div className=" absolute right-1 top-2 w-[480px] z-10 ">
+        <div className="bg-white rounded-lg pb-1 shadow-xl">
+          <Header title={props.name} details={props.description} />
+
+          {selected && (
+            <>
+              <div className=" items-center justify-between ">
+                <button
+                  className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-200 "
+                  onClick={() => setSelected(null)}
+                >
+                  <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
               <ViewerPreview />
-            </Panel>
-            <Panel>
-              <PanelContent>
-                <BuildingElementData />
-              </PanelContent>
-            </Panel>
-          </>
-        )}
-      </SidePanel>
+            </>
+          )}
+
+          <MenuSelector tabs={menuTabs} callback={setSelectedTab} />
+          <div className="m-3">
+            {!selected && (
+              <>
+                {selectedTab.name === 'Overview' && (
+                  <>
+                    <ProjectInfoList />
+                    <VisualProjectInfo />
+                    <PhaseDisplayer stage={4} />
+                    <BuildingMetrics callback={selectBuildingMetric} />
+                  </>
+                )}
+                {selectedTab.name === 'Impact' && (
+                  <>
+                    <RadioBuildingMetrics />
+                    <MaterialsTreeMap />
+                  </>
+                )}
+                {selectedTab.name === 'Inventory' && <BuildingTable />}
+              </>
+            )}
+
+            {selected && (
+              <>
+                {selectedTab.name === 'Overview' && (
+                  <>
+                    <ElementInfoList />
+                    <MaterialsComposition />
+                  </>
+                )}
+                {selectedTab.name === 'Metrics' && (
+                  <>
+                    <CircularityBarChart data={[20, 18, 80, 90]} />
+                    <EnvironmentalImpactTable />
+                  </>
+                )}
+                {selectedTab.name === 'Financial' && (
+                  <>
+                    <FinancialProjection />
+                  </>
+                )}
+                {selectedTab.name === 'Log' && <LogPage />}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
       <Viewer
         speckleObjects={props.buildings.flatMap((b) => b.speckleObjects)}
       />
-    </Wrapper>
+    </div>
   );
 }
